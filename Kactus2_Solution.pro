@@ -27,10 +27,10 @@ SUBDIRS += IPXACTmodels/IPXACTmodels.pro \
     Plugins/VerilogIncludeImport/VerilogIncludeImport.pro \
     Plugins/VerilogSourceAnalyzer/VerilogSourceAnalyzer.pro \
     Plugins/QuartusProjectGenerator/QuartusProjectGenerator.pro \
-	Plugins/MemoryViewGenerator/MemoryViewGenerator.pro
+    Plugins/MemoryViewGenerator/MemoryViewGenerator.pro
 
 CONFIG(test) {
-	SUBDIRS += tests/test_all.pro
+        SUBDIRS += tests/test_all.pro
 }
 
 INSTALLS += help doc upgrade config library icons desktop

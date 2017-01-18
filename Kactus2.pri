@@ -100,6 +100,7 @@ HEADERS += ./VersionHelper.h \
     ./common/dialogs/NewDesignDialog/NewDesignDialog.h \
     ./common/dialogs/LibrarySettingsDialog/librarysettingsdelegate.h \
     ./common/dialogs/LibrarySettingsDialog/LibrarySettingsDialog.h \
+    ./library/LibraryManager/TableViewDialog.h \
     ./common/dialogs/createConfigurationDialog/createconfigurationdialog.h \
     ./common/dialogs/NewBusDialog/NewBusDialog.h \
     ./mainwindow/SplashScreen.h \
@@ -127,6 +128,7 @@ HEADERS += ./VersionHelper.h \
     ./mainwindow/SaveHierarchy/SaveHierarchyDelegate.h \
     ./mainwindow/SaveHierarchy/HierarchicalSaveBuildStrategy.h \
     ./mainwindow/SaveHierarchy/SaveHierarchyDialog.h \
+    ./userdata/MessageListener.h \
     ./settings/SettingsUpdater.h \
     ./settings/ComponentEditorSettingsPage.h \
     ./settings/SettingsPage.h \
@@ -196,7 +198,6 @@ HEADERS += ./VersionHelper.h \
     ./Plugins/PluginSystem/ImportPlugin/ModelParameterSource.h \
     ./Plugins/PluginSystem/ImportPlugin/ModelParameterVisualizer.h \
     ./Plugins/common/NameGenerationPolicy.h \
-    ./library/LibraryManager/TableViewDialog.h \
     ./library/LibraryManager/libraryinterface.h \
     ./library/LibraryManager/LibraryUtils.h \
     ./library/LibraryManager/LibraryFilter.h \
@@ -587,10 +588,14 @@ HEADERS += ./VersionHelper.h \
     ./designEditors/MemoryDesigner/MainMemoryGraphicsItem.h \
     ./designEditors/MemoryDesigner/MemoryConnectionItem.h \
     ./designEditors/MemoryDesigner/MemoryDesignDocument.h \
+    ./designEditors/MemoryDesigner/MemoryDesignConstructor.h \
     ./designEditors/MemoryDesigner/MemoryDesignerDiagram.h \
     ./designEditors/MemoryDesigner/MemoryDesignerGraphicsItem.h \
     ./designEditors/MemoryDesigner/MemoryCollisionItem.h \
     ./designEditors/MemoryDesigner/MemoryDesignerChildGraphicsItem.h \
+    ./designEditors/MemoryDesigner/MemoryGraphicsItemHandler.h \
+    ./designEditors/MemoryDesigner/MemoryConnectionHandler.h \
+    ./designEditors/MemoryDesigner/MemoryColumnHandler.h \
     ./designEditors/MemoryDesigner/MemoryExtensionGraphicsItem.h \
     ./designEditors/MemoryDesigner/MemoryMapGraphicsItem.h \
     ./designEditors/MemoryDesigner/RegisterGraphicsItem.h \
@@ -695,11 +700,7 @@ HEADERS += ./VersionHelper.h \
     ./kactusGenerators/vhdlGenerator/vhdlobject.h \
     ./kactusGenerators/vhdlGenerator/vhdlport.h \
     ./kactusGenerators/vhdlGenerator/vhdlsignal.h \
-    ./kactusGenerators/DocumentGenerator/documentgenerator.h \
-    ./designEditors/MemoryDesigner/MemoryDesignConstructor.h \
-    ./designEditors/MemoryDesigner/MemoryColumnHandler.h \
-    ./designEditors/MemoryDesigner/MemoryGraphicsItemHandler.h \
-    ./designEditors/MemoryDesigner/MemoryConnectionHandler.h
+    ./kactusGenerators/DocumentGenerator/documentgenerator.h
 SOURCES += ./VersionHelper.cpp \
     ./common/GenericEditProvider.cpp \
     ./common/TextEditProvider.cpp \
@@ -715,6 +716,7 @@ SOURCES += ./VersionHelper.cpp \
     ./common/dialogs/NewDesignDialog/NewDesignDialog.cpp \
     ./common/dialogs/LibrarySettingsDialog/librarysettingsdelegate.cpp \
     ./common/dialogs/LibrarySettingsDialog/LibrarySettingsDialog.cpp \
+    ./library/LibraryManager/TableViewDialog.cpp \
     ./common/dialogs/NewBusDialog/NewBusDialog.cpp \
     ./common/validators/AddressValidator.cpp \
     ./common/validators/LibraryPathValidator/librarypathvalidator.cpp \
@@ -804,6 +806,7 @@ SOURCES += ./VersionHelper.cpp \
     ./mainwindow/SaveHierarchy/SaveAsItem.cpp \
     ./mainwindow/SaveHierarchy/SaveHierarchyDelegate.cpp \
     ./mainwindow/SaveHierarchy/SaveHierarchyDialog.cpp \
+    ./userdata/MessageListener.cpp \
     ./settings/ComponentEditorSettingsPage.cpp \
     ./settings/FileTypesDelegate.cpp \
     ./settings/FileTypeSettingsPage.cpp \
@@ -866,7 +869,6 @@ SOURCES += ./VersionHelper.cpp \
     ./library/LibraryManager/librarytreeview.cpp \
     ./library/LibraryManager/librarytreewidget.cpp \
     ./library/LibraryManager/LibraryUtils.cpp \
-    ./library/LibraryManager/TableViewDialog.cpp \
     ./library/LibraryManager/VLNVDialer/dialerwidget.cpp \
     ./library/LibraryManager/VLNVDialer/filterwidget.cpp \
     ./library/LibraryManager/VLNVDialer/firmnessgroup.cpp \
@@ -1216,12 +1218,16 @@ SOURCES += ./VersionHelper.cpp \
     ./designEditors/MemoryDesigner/FieldGraphicsItem.cpp \
     ./designEditors/MemoryDesigner/MainMemoryGraphicsItem.cpp \
     ./designEditors/MemoryDesigner/MasterSlavePathSearch.cpp \
+    ./designEditors/MemoryDesigner/MemoryDesignerConstants.cpp \
     ./designEditors/MemoryDesigner/MemoryCollisionItem.cpp \
     ./designEditors/MemoryDesigner/MemoryColumn.cpp \
     ./designEditors/MemoryDesigner/MemoryConnectionItem.cpp \
     ./designEditors/MemoryDesigner/MemoryDesignDocument.cpp \
+    ./designEditors/MemoryDesigner/MemoryDesignConstructor.cpp \
     ./designEditors/MemoryDesigner/MemoryDesignerChildGraphicsItem.cpp \
-    ./designEditors/MemoryDesigner/MemoryDesignerConstants.cpp \
+    ./designEditors/MemoryDesigner/MemoryGraphicsItemHandler.cpp \
+    ./designEditors/MemoryDesigner/MemoryConnectionHandler.cpp \
+    ./designEditors/MemoryDesigner/MemoryColumnHandler.cpp \
     ./designEditors/MemoryDesigner/MemoryDesignerDiagram.cpp \
     ./designEditors/MemoryDesigner/MemoryDesignerGraphicsItem.cpp \
     ./designEditors/MemoryDesigner/MemoryExtensionGraphicsItem.cpp \
@@ -1307,9 +1313,5 @@ SOURCES += ./VersionHelper.cpp \
     ./kactusGenerators/vhdlGenerator/vhdlportsorter.cpp \
     ./kactusGenerators/vhdlGenerator/vhdlsignal.cpp \
     ./kactusGenerators/vhdlGenerator/VhdlTypedObject.cpp \
-    ./kactusGenerators/DocumentGenerator/documentgenerator.cpp \
-    ./designEditors/MemoryDesigner/MemoryDesignConstructor.cpp \
-    ./designEditors/MemoryDesigner/MemoryColumnHandler.cpp \
-    ./designEditors/MemoryDesigner/MemoryGraphicsItemHandler.cpp \
-    ./designEditors/MemoryDesigner/MemoryConnectionHandler.cpp
+    ./kactusGenerators/DocumentGenerator/documentgenerator.cpp
 RESOURCES += kactus.qrc

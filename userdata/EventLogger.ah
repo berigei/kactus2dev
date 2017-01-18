@@ -1,0 +1,121 @@
+//-----------------------------------------------------------------------------
+// File: EventLogger.ah
+//-----------------------------------------------------------------------------
+// Project: Kactus2
+// Author: Esko Pekkarinen
+// Date: 15.11.2016
+//
+// Description:
+// Aspect definition for logging user events.
+//-----------------------------------------------------------------------------
+
+#ifndef EVENTLOGGER_AH
+#define EVENTLOGGER_AH
+
+#include "MessageListener.h"
+
+#include <mainwindow/MessageConsole/messageconsole.h>
+#include <mainwindow/Ribbon/RibbonGroup.h>
+#include <common/widgets/tabDocument/TabDocument.h>
+
+#include <QDockWidget>
+#include <QObject>
+#include <QString>
+
+aspect EventLogger
+{
+    //! Setup pointcut in MainWindow setup to create a message log visible to the user.
+    pointcut logWidget() = "% MainWindow::setupMessageConsole()";
+
+    advice call (logWidget()): after()
+    {
+        QDockWidget* loggerDock = new QDockWidget("Use Data Log", tjp->that());
+        loggerDock->setObjectName("UseDataLogger");
+        loggerDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+        loggerDock->setFeatures(QDockWidget::AllDockWidgetFeatures);
+
+        MessageConsole* logConsole = new MessageConsole(loggerDock);
+        loggerDock->setWidget(logConsole);
+        tjp->that()->addDockWidget(Qt::BottomDockWidgetArea, loggerDock);
+
+        MessageListener& listener = MessageListener::getInstance();
+        QObject::connect(&listener, SIGNAL(noticeMessage(QString const&)), logConsole, SLOT(onNoticeMessage(QString const&)));
+
+        listener.onNoticeMessage("Program started.");
+    }
+
+    //! Setup pointcut to connect all toolbar action clicks to message listener.
+    pointcut groupCreated() = "RibbonGroup";
+
+    advice construction (groupCreated()) : after()
+    {
+        RibbonGroup* widget = ((RibbonGroup*)tjp->that());
+
+        QObject* target = &MessageListener::getInstance();
+        QObject::connect(widget, SIGNAL(actionTriggered(QAction*)), target, SLOT(onActionClicked(QAction*)));
+    }
+
+    //! Setup pointcut to detect library path setting changes.
+    pointcut libraryPathAdded() = "void LibrarySettingsDialog::addLocation()";
+
+    advice call (libraryPathAdded()): after()
+    {
+	MessageListener& listener = MessageListener::getInstance();
+	listener.onNoticeMessage("Library path added.");
+    }
+
+    //! Setup pointcut to detect opening documents.
+    pointcut documentOpened() = "void DrawingBoard::addAndOpenDocument(TabDocument*)";
+
+    advice call (documentOpened()): before()
+    {
+        TabDocument** document = (TabDocument**)tjp->arg(0);
+
+        QString msg("Document ");
+        msg.append((*document)->getDocumentName());
+        msg.append(" opened.");
+
+        MessageListener& listener = MessageListener::getInstance();
+        listener.onNoticeMessage(msg);
+    }
+
+    //! Setup pointcut to detect closing documents.
+    pointcut documentRemoved() = "TabDocument";
+
+    advice destruction (documentRemoved()): before()
+    {
+        TabDocument* document = (TabDocument*)tjp->that();
+
+        QString msg("Document ");
+        msg.append(document->getDocumentName());
+        msg.append(" closed.");
+
+        MessageListener& listener = MessageListener::getInstance();
+        listener.onNoticeMessage(msg);
+    }
+
+    //! Setup pointcut to detect changes in lock-state of documents.
+    pointcut documentLocked() = "void TabDocument::setProtection(bool)";
+
+    advice call (documentLocked()): after()
+    {
+        TabDocument* document = (TabDocument*)tjp->target();
+
+        QString msg("Document ");
+        msg.append(document->getDocumentName());
+
+        if (document->isProtected())
+        {
+            msg.append(" locked.");
+        }
+        else
+        {
+            msg.append(" unlocked.");
+        }
+
+        MessageListener& listener = MessageListener::getInstance();
+        listener.onNoticeMessage(msg);
+    }
+};
+
+#endif // EVENTLOGGER_AH
