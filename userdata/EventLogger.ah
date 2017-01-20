@@ -14,8 +14,11 @@
 
 #include "MessageListener.h"
 
+#include <mainwindow/mainwindow.h>
 #include <mainwindow/MessageConsole/messageconsole.h>
 #include <mainwindow/Ribbon/RibbonGroup.h>
+#include <Help/HelpSystem/ContextHelpBrowser.h>
+
 #include <common/widgets/tabDocument/TabDocument.h>
 
 #include <QDockWidget>
@@ -115,6 +118,30 @@ aspect EventLogger
 
         MessageListener& listener = MessageListener::getInstance();
         listener.onNoticeMessage(msg);
+    }
+
+    //! Setup pointcut to detect help open.
+    pointcut openHelp() = "void MainWindow::showHelp()";
+
+    advice execution(openHelp()): after()
+    {
+        QString msg("Help opened.");
+
+        MessageListener& listener = MessageListener::getInstance();
+        listener.onNoticeMessage(msg);
+    }
+
+    //! Setup pointcut to detect help page changes.
+    pointcut helpPageChange() = "ContextHelpBrowser";
+
+    advice construction(helpPageChange()) : after()
+    {
+        ContextHelpBrowser* browser = ((ContextHelpBrowser*)tjp->that());
+
+        MessageListener& listener = MessageListener::getInstance();
+
+        QObject::connect(browser, SIGNAL(sourceChanged(QUrl const&)),
+            &listener, SLOT(onHelpPageChanged(QUrl const&)), Qt::UniqueConnection);
     }
 };
 

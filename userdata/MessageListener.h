@@ -44,6 +44,9 @@ public slots:
     //! Called when user clicks a recordable action.
     void onActionClicked(QAction* action);
 
+    //! Called when user changes help page.
+    void onHelpPageChanged(QUrl const& url);
+
 private:
 
     //! Disable copying.

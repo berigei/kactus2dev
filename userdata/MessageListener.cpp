@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QWidget>
 #include <QUuid>
+#include <QUrl>
 
 //-----------------------------------------------------------------------------
 // Function: MessageListener::getInstance()
@@ -37,10 +38,15 @@ MessageListener& MessageListener::getInstance()
 // Function: MessageListener::MessageListener()
 //-----------------------------------------------------------------------------
 MessageListener::MessageListener(): QObject(0),
-    sessionId_(QUuid::createUuid().toString()),
+    sessionId_(),
     user_(),
     logFile_(0)
 {
+    QString uuid = QUuid::createUuid().toString();
+    uuid.remove(0, 1); // <! Remove { at the beginning.
+    uuid.chop(1);      // <! Remove } at the end.
+
+    sessionId_ = uuid;
 
     user_ = QCryptographicHash::hash(Utils::getCurrentUser().toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
@@ -52,10 +58,7 @@ MessageListener::MessageListener(): QObject(0),
         logDirectory.mkpath(logDirPath);
     }
 
-    QString logFileName = sessionId_;
-    logFileName.remove(0, 1); // <! Remove { at the beginning.
-    logFileName.chop(1);      // <! Remove } at the end.
-
+    QString logFileName = uuid;
     logFileName.append(".log");
 
     logFile_ = new QFile(logDirPath + logFileName);
@@ -100,6 +103,19 @@ void MessageListener::onActionClicked(QAction* action)
     onNoticeMessage(clickMessage);
 }
 
+
+//-----------------------------------------------------------------------------
+// Function: MessageListener::onHelpPageChanged()
+//-----------------------------------------------------------------------------
+void MessageListener::onHelpPageChanged(QUrl const& url)
+{
+    QString helpMessage("Help page ");
+    helpMessage.append(url.toString());
+    helpMessage.append(" opened.");
+
+    onNoticeMessage(helpMessage);
+}
+
 //-----------------------------------------------------------------------------
 // Function: MessageListener::writeToLog()
 //-----------------------------------------------------------------------------
@@ -108,4 +124,5 @@ void MessageListener::writeToLog(QString const& msg)
     logFile_->write(msg.toLocal8Bit());
     logFile_->write("\n");
     logFile_->flush();
+
 }
