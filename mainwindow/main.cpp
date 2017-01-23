@@ -34,9 +34,6 @@ int main(int argc, char *argv[])
 	// Create the main window and close the splash after 1.5 seconds.
 	MainWindow w;
 		
-	// the release mode
-	#ifdef NDEBUG
-	
 	// Show the splash screen.
 	SplashScreen splash(VersionHelper::createVersionString());
     splash.show();
@@ -46,13 +43,7 @@ int main(int argc, char *argv[])
 
 	QTimer::singleShot(1500, &splash, SLOT(close()));
 	QTimer::singleShot(1500, &w, SLOT(show()));
-	QTimer::singleShot(1700, &w, SLOT(onLibrarySearch()));
-
-	// the debug mode
-	#else
-    QTimer::singleShot(200, &w, SLOT(onLibrarySearch()));
-	w.show();    
-	#endif    
+	QTimer::singleShot(1700, &w, SLOT(onLibrarySearch()));  
     
 	return application.exec();
 }

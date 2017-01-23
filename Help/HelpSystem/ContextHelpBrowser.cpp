@@ -12,8 +12,6 @@
 #include "ContextHelpBrowser.h"
 
 #include <QHelpContentWidget>
-#include <QCoreApplication>
-#include <QApplication>
 
 //-----------------------------------------------------------------------------
 // Function: ContextHelpBrowser::ContextHelpBrowser()

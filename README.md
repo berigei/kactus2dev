@@ -8,6 +8,9 @@
 Summary
 ----------------------------------------------------
 
+NOTE: This version is instrumented with user data collection features
+and is intended for experimental use.  
+
 Kactus2 is a toolset to design embedded products, especially FPGA-based
 MP-SoCs. We aim easier IP reusabilility and practical HW/SW abstraction for
 easier application SW development. It is based on IEEE1685/IP-XACT XML metadata

@@ -16,7 +16,6 @@
 #include <iostream>
 
 #include <QAction>
-#include <QApplication>
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDir>
@@ -50,7 +49,7 @@ MessageListener::MessageListener(): QObject(0),
 
     user_ = QCryptographicHash::hash(Utils::getCurrentUser().toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
-    QString logDirPath = QApplication::applicationDirPath() + "/log/";
+    QString logDirPath = QDir::homePath() + "/Kactus2/log/";
 
     if (!QFileInfo::exists(logDirPath))
     {
