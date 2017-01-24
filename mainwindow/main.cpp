@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
     application.setPalette(palette);
 
 	// Create the main window and close the splash after 1.5 seconds.
-	MainWindow w;
-		
+	MainWindow w;		
+
 	// Show the splash screen.
 	SplashScreen splash(VersionHelper::createVersionString());
     splash.show();

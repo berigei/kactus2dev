@@ -49,7 +49,7 @@ MessageListener::MessageListener(): QObject(0),
 
     user_ = QCryptographicHash::hash(Utils::getCurrentUser().toLocal8Bit(), QCryptographicHash::Md5).toHex();
 
-    QString logDirPath = QDir::homePath() + "/Kactus2/log/";
+    QString logDirPath = "P:/Kactus2/log/";
 
     if (!QFileInfo::exists(logDirPath))
     {
