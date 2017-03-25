@@ -26,8 +26,8 @@
 //-----------------------------------------------------------------------------
 // Function: businterfaceReader::businterfaceReader()
 //-----------------------------------------------------------------------------
-BusinterfaceReader::BusinterfaceReader(QObject* parent) :
-CommonItemsReader(parent)
+BusinterfaceReader::BusinterfaceReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -73,7 +73,8 @@ QSharedPointer<BusInterface> BusinterfaceReader::createbusinterfaceFrom(QDomNode
     QDomElement businterfaceElement = businterfaceNode.toElement();
     
     QDomElement busTypeElement = businterfaceElement.firstChildElement(QStringLiteral("ipxact:busType"));
-    newbusinterface->setBusType(parseVLNVAttributes(busTypeElement, VLNV::BUSDEFINITION));
+    QSharedPointer<ConfigurableVLNVReference> busRef = parseConfigurableVLNVReference(busTypeElement, VLNV::BUSDEFINITION);
+    newbusinterface->setBusType(busRef);
 
     parseAbstractionTypes(businterfaceElement.firstChildElement(QStringLiteral("ipxact:abstractionTypes")), newbusinterface);
 

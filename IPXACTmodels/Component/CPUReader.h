@@ -33,7 +33,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    CPUReader(QObject* parent = 0);
+    CPUReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

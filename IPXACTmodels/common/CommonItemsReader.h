@@ -23,6 +23,8 @@
 #include <QSharedPointer>
 #include <QDomNode>
 
+class LibraryInterface;
+
 //-----------------------------------------------------------------------------
 //! Reader class for common IP-XACT elements: VLNV, parameters, assertions, vendor extensions and presence.
 //-----------------------------------------------------------------------------
@@ -35,13 +37,16 @@ public:
      *  The constructor.
      *
      *      @param [in] parent  The parent object.
+     *      @param [in] parent  The library containing the items.
      */
-    CommonItemsReader(QObject* parent = 0);
+    CommonItemsReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.
      */
     ~CommonItemsReader();
+
+    LibraryInterface* getLibrary() const;
 
 protected:
 
@@ -116,6 +121,8 @@ private:
 	// Disable copying.
     CommonItemsReader(CommonItemsReader const& rhs);
     CommonItemsReader& operator=(CommonItemsReader const& rhs);
+
+    LibraryInterface* library_;
 };
 
 #endif // DOCUMENTREADER_H

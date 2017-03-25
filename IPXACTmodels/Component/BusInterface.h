@@ -128,7 +128,7 @@ public:
 	 *
 	 *      @return The vlnv tag of the bus definition that this bus interface references.
 	 */
-    ConfigurableVLNVReference getBusType() const;
+    QSharedPointer<ConfigurableVLNVReference> getBusType() const;
 
 	/*!
      *  Can this interface be left unconnected.
@@ -198,7 +198,7 @@ public:
 	 *
 	 *      @param busType The vlnv of the bus definition.
 	 */
-    void setBusType(ConfigurableVLNVReference const& newBusType);
+    void setBusType(QSharedPointer<ConfigurableVLNVReference> newBusType);
 
 	/*!
      *  Set the connectionRequired value.
@@ -444,7 +444,7 @@ private:
 	QMap<QString, QString> attributes_;
 	
 	//! The vlnv of the bus definition this bus interface is referenced.
-    ConfigurableVLNVReference busType_;
+    QSharedPointer<ConfigurableVLNVReference> busType_;
 
     //! List of abstraction types existing within this object.
     QSharedPointer<QList<QSharedPointer<AbstractionType> > > abstractionTypes_;

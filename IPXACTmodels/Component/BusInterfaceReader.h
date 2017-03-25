@@ -34,7 +34,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    BusinterfaceReader(QObject* parent = 0);
+    BusinterfaceReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

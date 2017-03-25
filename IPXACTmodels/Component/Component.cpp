@@ -928,9 +928,9 @@ QList<VLNV> Component::getDependentVLNVs() const
 
     foreach (QSharedPointer<BusInterface> busif, *busInterfaces_)
     {
-        if (busif->getBusType().isValid())
+        if (busif->getBusType()->isValid())
         {
-            vlnvList.append(busif->getBusType());
+            vlnvList.append(*busif->getBusType().data());
         }
 
         foreach (QSharedPointer<AbstractionType> abstractionType, *busif->getAbstractionTypes())

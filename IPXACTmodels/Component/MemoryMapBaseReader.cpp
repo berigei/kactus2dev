@@ -21,8 +21,8 @@
 //-----------------------------------------------------------------------------
 // Function: MemoryMapBaseReader::MemoryMapBaseReader()
 //-----------------------------------------------------------------------------
-MemoryMapBaseReader::MemoryMapBaseReader(QObject* parent /* = 0 */):
-CommonItemsReader(parent)
+MemoryMapBaseReader::MemoryMapBaseReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -80,7 +80,7 @@ void MemoryMapBaseReader::parseMemoryBlocks(QDomNode const& MemoryMapBaseBaseNod
 {
     QDomNodeList childNodes = MemoryMapBaseBaseNode.childNodes();
 
-    AddressBlockReader addressBlockReader;
+    AddressBlockReader addressBlockReader(getLibrary());
 
     for (int childIndex = 0; childIndex < childNodes.count(); ++childIndex)
     {

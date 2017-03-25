@@ -22,8 +22,8 @@
 //-----------------------------------------------------------------------------
 // Function: RegisterReader::RegisterReader()
 //-----------------------------------------------------------------------------
-RegisterReader::RegisterReader(QObject* parent /* = 0 */) :
-CommonItemsReader(parent)
+RegisterReader::RegisterReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -217,7 +217,7 @@ void RegisterReader::parseFields(QDomElement const& registerDefinitionElement,
 
     if (!fieldNodeList.isEmpty())
     {
-        FieldReader fieldReader;
+        FieldReader fieldReader(getLibrary());
 
         for (int fieldIndex = 0; fieldIndex < fieldNodeList.count(); ++fieldIndex)
         {

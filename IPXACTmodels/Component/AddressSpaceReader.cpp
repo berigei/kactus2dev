@@ -18,8 +18,8 @@
 //-----------------------------------------------------------------------------
 // Function: AddressSpaceReader::AddressSpaceReader()
 //-----------------------------------------------------------------------------
-AddressSpaceReader::AddressSpaceReader(QObject* parent /* = 0 */) :
-CommonItemsReader(parent)
+AddressSpaceReader::AddressSpaceReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -190,7 +190,7 @@ void AddressSpaceReader::parseLocalMemoryMap(QDomNode const& addressSpaceNode,
     {
         QSharedPointer<MemoryMapBase> newLocalMemoryMap(new MemoryMapBase());
 
-        MemoryMapBaseReader localReader;
+        MemoryMapBaseReader localReader(getLibrary());
         localReader.readMemoryMapBase(localMemoryMapNode, newLocalMemoryMap);
         newAddressSpace->setLocalMemoryMap(newLocalMemoryMap);
     }

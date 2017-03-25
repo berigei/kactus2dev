@@ -39,7 +39,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    MemoryMapReader(QObject* parent = 0);
+    MemoryMapReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

@@ -38,8 +38,8 @@
 //-----------------------------------------------------------------------------
 // Function: ComponentReader::ComponentReader()
 //-----------------------------------------------------------------------------
-ComponentReader::ComponentReader(QObject* parent /* = 0 */):
-DocumentReader(parent)
+ComponentReader::ComponentReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+DocumentReader(library, parent)
 {
 
 }
@@ -111,7 +111,7 @@ void ComponentReader::parseBusInterfaces(QDomNode const& componentNode, QSharedP
 
     if (!busInterfaceElement.isNull())
     {
-        BusinterfaceReader busReader;
+        BusinterfaceReader busReader(getLibrary());
 
         QDomNodeList busInterfaceNodeList = busInterfaceElement.elementsByTagName(QStringLiteral("ipxact:busInterface"));
         for (int interfaceIndex = 0; interfaceIndex < busInterfaceNodeList.count(); ++interfaceIndex)
@@ -133,7 +133,7 @@ void ComponentReader::parseChannels(QDomNode const& componentNode, QSharedPointe
 
     if (!channelsElement.isNull())
     {
-        ChannelReader channelReader;
+        ChannelReader channelReader(getLibrary());
 
         QDomNodeList channelNodeList = channelsElement.elementsByTagName(QStringLiteral("ipxact:channel"));
         for (int channelIndex = 0; channelIndex < channelNodeList.count(); ++channelIndex)
@@ -178,7 +178,7 @@ void ComponentReader::parseAddressSpaces(QDomNode const& componentNode, QSharedP
 
     if (!addressSpacesElement.isNull())
     {
-        AddressSpaceReader spaceReader;
+        AddressSpaceReader spaceReader(getLibrary());
 
         QDomNodeList addressNodeList = addressSpacesElement.elementsByTagName(QStringLiteral("ipxact:addressSpace"));
         for (int spaceIndex = 0; spaceIndex < addressNodeList.count(); ++spaceIndex)
@@ -200,7 +200,7 @@ void ComponentReader::parseMemoryMaps(QDomNode const& componentNode, QSharedPoin
 
     if (!memoryMapsElement.isNull())
     {
-        MemoryMapReader memoryReader;
+        MemoryMapReader memoryReader(getLibrary());
 
         QDomNodeList memoryMapNodeList = memoryMapsElement.elementsByTagName(QStringLiteral("ipxact:memoryMap"));
         for (int memoryIndex = 0; memoryIndex < memoryMapNodeList.count(); ++memoryIndex)
@@ -281,7 +281,7 @@ void ComponentReader::parseComponentInstantiations(QDomElement const& instantiat
         instantiationsElement.elementsByTagName(QStringLiteral("ipxact:componentInstantiation"));
     if (!componentInstantiationNodeList.isEmpty())
     {
-        InstantiationsReader instantiationsReader;
+        InstantiationsReader instantiationsReader(getLibrary());
 
         for (int i = 0 ; i < componentInstantiationNodeList.count(); ++i)
         {
@@ -304,7 +304,7 @@ void ComponentReader::parseDesignInstantiations(QDomElement const& instantiation
         instantiationsElement.elementsByTagName(QStringLiteral("ipxact:designInstantiation"));
     if (!designInstantiationNodeList.isEmpty())
     {
-        InstantiationsReader instantiationsReader;
+        InstantiationsReader instantiationsReader(getLibrary());
 
         for (int i = 0 ; i < designInstantiationNodeList.count(); ++i)
         {
@@ -327,7 +327,7 @@ void ComponentReader::parseDesignConfigurationInstantiations(QDomElement const& 
         instantiationsElement.elementsByTagName(QStringLiteral("ipxact:designConfigurationInstantiation"));
     if (!designConfigurationInstantiationNodeList.isEmpty())
     {
-        InstantiationsReader instantiationsReader;
+        InstantiationsReader instantiationsReader(getLibrary());
 
         for (int i = 0 ; i < designConfigurationInstantiationNodeList.count(); ++i)
         {
@@ -349,7 +349,7 @@ void ComponentReader::parsePorts(QDomElement const& modelElement, QSharedPointer
 
     if (!portsElement.isNull())
     {
-        PortReader portReader;
+        PortReader portReader(getLibrary());
 
         QDomNodeList portNodeList = portsElement.elementsByTagName(QStringLiteral("ipxact:port"));
         for (int portIndex = 0; portIndex < portNodeList.count(); ++portIndex)
@@ -372,7 +372,7 @@ void ComponentReader::parseComponentGenerators(QDomNode const& componentNode,
 
     if (!componentGeneratorsElement.isNull())
     {
-        ComponentGeneratorReader generatorReader;
+        ComponentGeneratorReader generatorReader(getLibrary());
 
         QDomNodeList generatorNodeList = componentGeneratorsElement.elementsByTagName(QStringLiteral("ipxact:componentGenerator"));
         for (int generatorIndex = 0; generatorIndex < generatorNodeList.count(); ++generatorIndex)
@@ -417,7 +417,7 @@ void ComponentReader::parseFileSets(QDomNode const& componentNode, QSharedPointe
 
     if (!fileSetsElement.isNull())
     {
-        FileSetReader setReader;
+        FileSetReader setReader(getLibrary());
 
         QDomNodeList fileSetNodeList = fileSetsElement.elementsByTagName(QStringLiteral("ipxact:fileSet"));
         for (int fileSetIndex = 0; fileSetIndex < fileSetNodeList.count(); ++fileSetIndex)
@@ -439,7 +439,7 @@ void ComponentReader::parseCPUs(QDomNode const& componentNode, QSharedPointer<Co
 
     if (!cpusElement.isNull())
     {
-        CPUReader cpuReader;
+        CPUReader cpuReader(getLibrary());
 
         QDomNodeList cpuNodeList = cpusElement.elementsByTagName(QStringLiteral("ipxact:cpu"));
         for (int cpuIndex = 0; cpuIndex < cpuNodeList.count(); ++cpuIndex)

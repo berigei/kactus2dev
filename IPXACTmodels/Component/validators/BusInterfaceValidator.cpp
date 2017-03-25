@@ -161,8 +161,8 @@ bool BusInterfaceValidator::hasValidIsPresent(QString const& isPresent) const
 //-----------------------------------------------------------------------------
 bool BusInterfaceValidator::hasValidBusType(QSharedPointer<BusInterface> busInterface) const
 {
-    return busInterface->getBusType().isValid() && libraryHandler_->contains(busInterface->getBusType()) &&
-        libraryHandler_->getDocumentType(busInterface->getBusType()) == VLNV::BUSDEFINITION;
+    return busInterface->getBusType()->isValid() && libraryHandler_->contains(*busInterface->getBusType().data()) &&
+        libraryHandler_->getDocumentType(*busInterface->getBusType().data()) == VLNV::BUSDEFINITION;
 }
 
 //-----------------------------------------------------------------------------
@@ -597,7 +597,7 @@ bool BusInterfaceValidator::hasValidSystemInterface(QSharedPointer<BusInterface>
 {
     if (!systemGroup.isEmpty())
     {
-        QSharedPointer<Document const> definitionDocument = libraryHandler_->getModelReadOnly(busInterface->getBusType());
+        QSharedPointer<Document const> definitionDocument = libraryHandler_->getModelReadOnly(*busInterface->getBusType().data());
 		QSharedPointer<BusDefinition const> busDefinition = definitionDocument.dynamicCast<BusDefinition const>();
 
         if (busDefinition)
@@ -825,19 +825,19 @@ void BusInterfaceValidator::findErrorsInIsPresent(QVector<QString>& errors,
 void BusInterfaceValidator::findErrorsInBusType(QVector<QString>& errors,
     QSharedPointer<BusInterface> busInterface, QString const& context) const
 {
-    if (!busInterface->getBusType().isValid())
+    if (!busInterface->getBusType()->isValid())
     {
         errors.append(QObject::tr("Bus definition must be given for bus interface %1 within %2")
             .arg(busInterface->name(), context));
     }
     else
     {
-        if (!libraryHandler_->contains(busInterface->getBusType()))
+        if (!libraryHandler_->contains(*busInterface->getBusType().data()))
         {
             errors.append(QObject::tr("Bus definition %1 set for bus interface %2 within %3 could not be found in "
-                "the library").arg(busInterface->getBusType().toString(), busInterface->name(), context));
+                "the library").arg(busInterface->getBusType()->toString(), busInterface->name(), context));
         }
-        if (libraryHandler_->getDocumentType(busInterface->getBusType()) != VLNV::BUSDEFINITION)
+        if (libraryHandler_->getDocumentType(*busInterface->getBusType().data()) != VLNV::BUSDEFINITION)
         {
             errors.append(QObject::tr("Invalid bus definition set for %1 within %2")
                 .arg(busInterface->name(), context));
@@ -1159,15 +1159,15 @@ void BusInterfaceValidator::findErrorsInSystemInterface(QVector<QString>& errors
 
     else
     {
-        if (busInterface->getBusType().isValid())
+        if (busInterface->getBusType()->isValid())
         {
-			QSharedPointer<Document const> definitionDocument = libraryHandler_->getModelReadOnly(busInterface->getBusType());
+			QSharedPointer<Document const> definitionDocument = libraryHandler_->getModelReadOnly(*busInterface->getBusType().data());
 			QSharedPointer<BusDefinition const> busDefinition = definitionDocument.dynamicCast<BusDefinition const>();
 
             if (busDefinition && !busDefinition->getSystemGroupNames().contains(systemGroup))
             {
                 errors.append(QObject::tr("Could not find system group %1 set for %2 with bus definition %3.")
-                    .arg(systemGroup, context, busInterface->getBusType().toString()));
+                    .arg(systemGroup, context, busInterface->getBusType()->toString()));
             }
         }
     }

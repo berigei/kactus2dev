@@ -31,7 +31,7 @@ class IPXACTMODELS_EXPORT CatalogReader : public DocumentReader
 public:
 
 	//! The constructor.
-	CatalogReader(QObject* parent = 0);
+	CatalogReader(LibraryInterface* library, QObject* parent = 0);
 
 	//! The destructor.
 	virtual ~CatalogReader();

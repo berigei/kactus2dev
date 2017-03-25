@@ -14,11 +14,13 @@
 
 #include <IPXACTmodels/common/GenericVendorExtension.h>
 
+#include <library/LibraryInterface.h>
+
 //-----------------------------------------------------------------------------
 // Function: CommonItemsReader::CommonItemsReader()
 //-----------------------------------------------------------------------------
-CommonItemsReader::CommonItemsReader(QObject* parent /* = 0 */) :
-QObject(parent)
+CommonItemsReader::CommonItemsReader(LibraryInterface* library, QObject* parent /* = 0 */) :
+library_(library), QObject(parent)
 {
 
 }
@@ -29,6 +31,14 @@ QObject(parent)
 CommonItemsReader::~CommonItemsReader()
 {
 
+}
+
+//-----------------------------------------------------------------------------
+// Function: CommonItemsReader::getLibrar()
+//-----------------------------------------------------------------------------
+LibraryInterface* CommonItemsReader::getLibrary() const
+{
+    return library_;
 }
 
 //-----------------------------------------------------------------------------
@@ -124,8 +134,9 @@ QSharedPointer<ConfigurableVLNVReference> CommonItemsReader::parseConfigurableVL
     QString name = attributeMap.namedItem(QStringLiteral("name")).nodeValue();
     QString version = attributeMap.namedItem(QStringLiteral("version")).nodeValue();
 
-    QSharedPointer<ConfigurableVLNVReference> vlnvReference(
-        new ConfigurableVLNVReference(type, vendor, library, name, version));
+    VLNV vlnv(type, vendor, library, name, version);
+
+    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library_->getVLNVReference(vlnv);
 
     QDomNode configurableElementsNode = configurableVLNVNode.firstChildElement(QStringLiteral("ipxact:configurableElementValues"));
 

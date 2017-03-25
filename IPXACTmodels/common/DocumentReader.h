@@ -37,7 +37,7 @@ public:
      *
      *      @param [in] parent  The parent object.
      */
-    DocumentReader(QObject* parent = 0);
+    DocumentReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.
@@ -113,7 +113,6 @@ private:
 	// Disable copying.
     DocumentReader(DocumentReader const& rhs);
     DocumentReader& operator=(DocumentReader const& rhs);
-
 };
 
 #endif // DOCUMENTREADER_H

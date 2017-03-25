@@ -18,8 +18,8 @@
 //-----------------------------------------------------------------------------
 // Function: FileSetReader::FileSetReader()
 //-----------------------------------------------------------------------------
-FileSetReader::FileSetReader(QObject* parent /* = 0 */) :
-CommonItemsReader(parent)
+FileSetReader::FileSetReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -82,7 +82,7 @@ void FileSetReader::parseFiles(QDomElement const& fileSetElement, QSharedPointer
 
     if (!fileNodeList.isEmpty())
     {
-        FileReader fileReader;
+        FileReader fileReader(getLibrary());
         for (int fileIndex = 0; fileIndex < fileNodeList.count(); ++fileIndex)
 		{
 			// Read each file with the file reader.
@@ -106,7 +106,7 @@ void FileSetReader::parseDefaultFileBuilders(QDomElement const& fileSetElement, 
 
     if (!fileBuilderNodeList.isEmpty())
     {
-        FileBuilderReader fileBuilderReader;
+        FileBuilderReader fileBuilderReader(getLibrary());
         for (int fileBuilderIndex = 0; fileBuilderIndex < fileBuilderNodeList.count(); ++fileBuilderIndex)
         {
             QSharedPointer<FileBuilder> newFileBuilder =

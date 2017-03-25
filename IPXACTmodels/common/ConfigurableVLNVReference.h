@@ -13,6 +13,7 @@
 #define CONFIGURABLEVLNVREFERENCE_H
 
 #include <IPXACTmodels/common/VLNV.h>
+#include <IPXACTmodels/common/Document.h>
 #include <IPXACTmodels/ipxactmodels_global.h>
 #include <IPXACTmodels/common/ConfigurableElementValue.h>
 
@@ -45,15 +46,17 @@ public:
      *      @param [in] name        The name.
      *      @param [in] version     The version.
      */
-    ConfigurableVLNVReference(const IPXactType& type, const QString& vendor, const QString& library,
-        const QString& name, const QString& version);
+    //ConfigurableVLNVReference(const IPXactType& type, const QString& vendor, const QString& library,
+    //    const QString& name, const QString& version);
 
     /*!
      *  Constructor with VLNV information.
      *
      *      @param [in] configurableVLNV    The configurable VLNV.
      */
-    ConfigurableVLNVReference(const VLNV& configurableVLNV);
+    //ConfigurableVLNVReference(const VLNV& configurableVLNV);
+
+    ConfigurableVLNVReference(QWeakPointer<Document> document);
 
     /*!
      *  The destructor.
@@ -104,6 +107,8 @@ private:
 
     //! A list of configurable element values
     QSharedPointer<QList<QSharedPointer<ConfigurableElementValue> > > configurableElementValues_;
+
+    QWeakPointer<Document> document_;
 };
 
 #endif // CONFIGURABLEVLNVREFERENCE_H

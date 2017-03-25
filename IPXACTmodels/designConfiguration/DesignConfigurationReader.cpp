@@ -14,8 +14,8 @@
 //-----------------------------------------------------------------------------
 // Function: DesignConfigurationReader::DesignConfigurationReader()
 //-----------------------------------------------------------------------------
-DesignConfigurationReader::DesignConfigurationReader(QObject* parent /* = 0 */):
-DocumentReader(parent)
+DesignConfigurationReader::DesignConfigurationReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+DocumentReader(library, parent)
 {
 
 }

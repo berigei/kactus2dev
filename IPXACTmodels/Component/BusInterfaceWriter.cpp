@@ -59,7 +59,7 @@ void BusInterfaceWriter::writebusinterface(QXmlStreamWriter& writer, QSharedPoin
 
     // Write always bus type, connection requirement the bits in lau, and endianess.
     writer.writeEmptyElement(QStringLiteral("ipxact:busType"));
-    writeVLNVAttributes(writer, businterface->getBusType());
+    writeVLNVAttributes(writer, *businterface->getBusType().data());
 
     writeAbstractionTypes(writer, businterface);
 

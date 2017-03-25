@@ -16,8 +16,8 @@
 //-----------------------------------------------------------------------------
 // Function: ChannelReader::ChannelReader()
 //-----------------------------------------------------------------------------
-ChannelReader::ChannelReader(QObject* parent) :
-CommonItemsReader(parent)
+ChannelReader::ChannelReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }

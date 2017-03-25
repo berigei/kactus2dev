@@ -272,7 +272,7 @@ void BusInterface::setBitSteeringAttributes(QMap<QString, QString> const& bitSte
 //-----------------------------------------------------------------------------
 // Function: BusInterface::getBusType()
 //-----------------------------------------------------------------------------
-ConfigurableVLNVReference BusInterface::getBusType() const
+QSharedPointer<ConfigurableVLNVReference> BusInterface::getBusType() const
 {
 	return busType_;
 }
@@ -381,7 +381,7 @@ void BusInterface::setInterfaceMode(General::InterfaceMode interfaceMode)
 //-----------------------------------------------------------------------------
 // Function: BusInterface::setBusType()
 //-----------------------------------------------------------------------------
-void BusInterface::setBusType(ConfigurableVLNVReference const& newBusType)
+void BusInterface::setBusType(QSharedPointer<ConfigurableVLNVReference> newBusType)
 {
     busType_ = newBusType;
 }

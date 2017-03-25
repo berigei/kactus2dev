@@ -19,8 +19,8 @@
 //-----------------------------------------------------------------------------
 // Function: InstantiationsReader::InstantiationsReader()
 //-----------------------------------------------------------------------------
-InstantiationsReader::InstantiationsReader(QObject* parent /* = 0 */) :
-CommonItemsReader(parent)
+InstantiationsReader::InstantiationsReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -210,7 +210,7 @@ void InstantiationsReader::parseDefaultFileBuilders(QDomNode const& instantiatio
 
     if (!defaultFileBuilderNodeList.isEmpty())
     {
-        FileBuilderReader defaultFileBuilderReader;
+        FileBuilderReader defaultFileBuilderReader(getLibrary());
 
         for (int i = 0; i < defaultFileBuilderNodeList.count(); ++i)
         {

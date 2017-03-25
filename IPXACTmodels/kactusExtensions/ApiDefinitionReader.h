@@ -30,7 +30,7 @@ class IPXACTMODELS_EXPORT ApiDefinitionReader : public DocumentReader
 public:
 
 	//! The constructor.
-	ApiDefinitionReader(QObject* parent = 0);
+	ApiDefinitionReader(LibraryInterface* library, QObject* parent = 0);
 
 	//! The destructor.
 	~ApiDefinitionReader();

@@ -36,7 +36,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    FieldReader(QObject* parent = 0);
+    FieldReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

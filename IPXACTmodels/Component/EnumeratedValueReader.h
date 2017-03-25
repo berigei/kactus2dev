@@ -36,7 +36,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    EnumeratedValueReader(QObject* parent = 0);
+    EnumeratedValueReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

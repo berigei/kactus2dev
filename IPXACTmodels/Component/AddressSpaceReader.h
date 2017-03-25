@@ -34,7 +34,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    AddressSpaceReader(QObject* parent = 0);
+    AddressSpaceReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

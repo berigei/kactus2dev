@@ -30,7 +30,7 @@ class IPXACTMODELS_EXPORT ComDefinitionReader : public DocumentReader
 public:
 
 	//! The constructor.
-	ComDefinitionReader(QObject* parent = 0);
+	ComDefinitionReader(LibraryInterface* library, QObject* parent = 0);
 
 	//! The destructor.
 	~ComDefinitionReader();

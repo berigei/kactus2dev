@@ -17,8 +17,8 @@
 //-----------------------------------------------------------------------------
 // Function: DocumentReader::DocumentReader()
 //-----------------------------------------------------------------------------
-DocumentReader::DocumentReader(QObject* parent):
-CommonItemsReader(parent)
+DocumentReader::DocumentReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }

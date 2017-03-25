@@ -33,7 +33,7 @@ public:
      *
      *      @param [in] parent  The parent object.
      */
-    ComponentInstanceReader(QObject* parent = 0);
+    ComponentInstanceReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
 	 *  The destructor.

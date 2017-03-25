@@ -18,8 +18,8 @@
 //-----------------------------------------------------------------------------
 // Function: ComDefinitionReader::ComDefinitionReader()
 //-----------------------------------------------------------------------------
-ComDefinitionReader::ComDefinitionReader(QObject *parent):
-DocumentReader(parent)
+ComDefinitionReader::ComDefinitionReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+DocumentReader(library, parent)
 {
 
 }

@@ -38,7 +38,7 @@ public:
      *
      *      @param [in] parent  The parent object.
      */
-    DesignReader(QObject* parent = 0);
+    DesignReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
 	 *  The destructor.

@@ -35,7 +35,7 @@ public:
      *
      *      @param [in] parent  The parent of this reader.
      */
-    FileBuilderReader(QObject* parent = 0);
+    FileBuilderReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

@@ -42,7 +42,7 @@ configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 //-----------------------------------------------------------------------------
 // Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
 //-----------------------------------------------------------------------------
-ConfigurableVLNVReference::ConfigurableVLNVReference(const IPXactType& type, const QString& vendor,
+/*ConfigurableVLNVReference::ConfigurableVLNVReference(const IPXactType& type, const QString& vendor,
     const QString& library, const QString& name, const QString& version):
 VLNV(type, vendor, library, name, version),
 configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
@@ -56,6 +56,16 @@ configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 ConfigurableVLNVReference::ConfigurableVLNVReference(const VLNV& configurableVLNV):
 VLNV(configurableVLNV),
 configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> > )
+{
+
+}*/
+
+//-----------------------------------------------------------------------------
+// Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
+//-----------------------------------------------------------------------------
+ConfigurableVLNVReference::ConfigurableVLNVReference(QWeakPointer<Document> document):
+document_(document),
+    configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> > )
 {
 
 }

@@ -20,8 +20,8 @@
 //-----------------------------------------------------------------------------
 // Function: FieldReader::FieldReader()
 //-----------------------------------------------------------------------------
-FieldReader::FieldReader(QObject* parent /* = 0 */) :
-CommonItemsReader(parent)
+FieldReader::FieldReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -242,7 +242,7 @@ void FieldReader::parseEnumeratedValues(QDomElement const& fieldElement, QShared
     QDomElement enumeratedValuesElement = fieldElement.firstChildElement(QStringLiteral("ipxact:enumeratedValues"));
     if (!enumeratedValuesElement.isNull())
     {
-        EnumeratedValueReader enumerationReader;
+        EnumeratedValueReader enumerationReader(getLibrary());
 
         QDomNodeList enumeratedValueNodes = enumeratedValuesElement.elementsByTagName(QStringLiteral("ipxact:enumeratedValue"));
         for (int enumerationIndex = 0; enumerationIndex < enumeratedValueNodes.count(); ++enumerationIndex)

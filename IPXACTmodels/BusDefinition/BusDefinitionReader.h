@@ -30,7 +30,7 @@ class IPXACTMODELS_EXPORT BusDefinitionReader : public DocumentReader
 public:
 
 	//! The constructor.
-	BusDefinitionReader(QObject* parent = 0);
+	BusDefinitionReader(LibraryInterface* library, QObject* parent = 0);
 
 	//! The destructor.
 	~BusDefinitionReader();

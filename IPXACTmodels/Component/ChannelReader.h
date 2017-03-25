@@ -34,7 +34,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    ChannelReader(QObject* parent = 0);
+    ChannelReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

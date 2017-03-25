@@ -40,7 +40,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    RegisterReader(QObject* parent = 0);
+    RegisterReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

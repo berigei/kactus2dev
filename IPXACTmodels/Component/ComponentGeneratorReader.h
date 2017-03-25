@@ -34,7 +34,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    ComponentGeneratorReader(QObject* parent = 0);
+    ComponentGeneratorReader(LibraryInterface* library, QObject* parent = 0);
 
     //! The destructor.
     ~ComponentGeneratorReader();

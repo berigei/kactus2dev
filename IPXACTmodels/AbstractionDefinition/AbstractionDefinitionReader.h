@@ -33,7 +33,7 @@ class IPXACTMODELS_EXPORT AbstractionDefinitionReader : public DocumentReader
 public:
 
 	//! The constructor.
-	AbstractionDefinitionReader(QObject* parent = 0);
+	AbstractionDefinitionReader(LibraryInterface* library, QObject* parent = 0);
 
 	//! The destructor.
 	~AbstractionDefinitionReader();

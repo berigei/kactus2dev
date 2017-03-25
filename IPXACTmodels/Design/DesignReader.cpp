@@ -24,8 +24,8 @@
 //-----------------------------------------------------------------------------
 // Function: DesignReader::DesignReader()
 //-----------------------------------------------------------------------------
-DesignReader::DesignReader(QObject* parent):
-DocumentReader(parent)
+DesignReader::DesignReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+DocumentReader(library, parent)
 {
 
 }
@@ -79,7 +79,7 @@ void DesignReader::parseComponentInstances(QDomNode const& designNode, QSharedPo
     QDomNode componentInstancesNode = designNode.firstChildElement(QStringLiteral("ipxact:componentInstances"));
 
     QDomNodeList instanceNodes = componentInstancesNode.childNodes();
-    ComponentInstanceReader instanceReader;
+    ComponentInstanceReader instanceReader(getLibrary());
 
     for (int i = 0; i < instanceNodes.size(); ++i)
     {
@@ -594,7 +594,7 @@ void DesignReader::parseSwInstances(QDomNode const& swInstancesNode, QSharedPoin
         QDomNode swNode = swNodeList.at(swIndex);
         if (swNode.nodeName() == QLatin1String("kactus2:swInstance"))
         {
-            QSharedPointer<SWInstance> newSWInstance (new SWInstance(swNode));
+            QSharedPointer<SWInstance> newSWInstance (new SWInstance(getLibrary(), swNode));
             swInstanceList.append(newSWInstance);
         }
     }

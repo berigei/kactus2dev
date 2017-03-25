@@ -21,8 +21,8 @@
 //-----------------------------------------------------------------------------
 // Function: AddressBlockReader::AddressBlockReader()
 //-----------------------------------------------------------------------------
-AddressBlockReader::AddressBlockReader(QObject* parent /* = 0 */):
-CommonItemsReader(parent)
+AddressBlockReader::AddressBlockReader(LibraryInterface* library, QObject* parent /*= 0*/) :
+CommonItemsReader(library, parent)
 {
 
 }
@@ -208,7 +208,7 @@ void AddressBlockReader::parseRegisterData(QDomNode const& addressBlockNode,
     QSharedPointer<AddressBlock> newAddressBlock) const
 {
     QDomNodeList childNodeList = addressBlockNode.childNodes();
-    RegisterReader registerReader;
+    RegisterReader registerReader(getLibrary());
 
     for (int i = 0; i < childNodeList.count(); ++i)
     {

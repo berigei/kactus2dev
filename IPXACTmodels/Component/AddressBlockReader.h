@@ -36,7 +36,7 @@ public:
      *
      *      @param [in] parent  The owner of this reader.
      */
-    AddressBlockReader(QObject* parent = 0);
+    AddressBlockReader(LibraryInterface* library, QObject* parent = 0);
 
     /*!
      *  The destructor.

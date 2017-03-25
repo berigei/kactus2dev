@@ -22,6 +22,8 @@
 #include <IPXACTmodels/common/ConfigurableVLNVReference.h>
 #include <IPXACTmodels/common/ConfigurableElementValue.h>
 
+#include <library/LibraryInterface.h>
+
 #include <QString>
 #include <QPointF>
 #include <QList>
@@ -51,7 +53,7 @@ public:
      *
      *      @param [in] node The source XML node.
      */
-    SWInstance(QDomNode& node);
+    SWInstance(LibraryInterface* library, QDomNode& node);
 
     /*!
      *  Destructor.
@@ -172,7 +174,7 @@ private:
      *
      *      @param [in] node    The node containing the component reference.
      */
-    QSharedPointer<ConfigurableVLNVReference> createComponentReference(const QDomNode& node) const;
+    QSharedPointer<ConfigurableVLNVReference> createComponentReference(LibraryInterface* library, const QDomNode& node) const;
 
     /*!
      *  Create a configurable element value from XML.

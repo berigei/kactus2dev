@@ -40,7 +40,7 @@ comInterfaces_()
 //-----------------------------------------------------------------------------
 // Function: SWInstance::SWInstance()
 //-----------------------------------------------------------------------------
-SWInstance::SWInstance(QDomNode& node) :
+SWInstance::SWInstance(LibraryInterface* library, QDomNode& node) :
 ComponentInstance(),
 fileSetRef_(),
 hwRef_(),
@@ -69,7 +69,7 @@ comInterfaces_()
         }
         else if (childNode.nodeName() == QLatin1String("kactus2:componentRef"))
         {
-            setComponentRef(createComponentReference(childNode));
+            setComponentRef(createComponentReference(library,childNode));
         }
         else if (childNode.nodeName() == QLatin1String("kactus2:fileSetRef"))
         {
@@ -483,17 +483,18 @@ QPointF SWInstance::parseSinglePoint(QDomNode const& node)
 //-----------------------------------------------------------------------------
 // Function: SWInstance::createComponentReference()
 //-----------------------------------------------------------------------------
-QSharedPointer<ConfigurableVLNVReference> SWInstance::createComponentReference(const QDomNode& node) const
+QSharedPointer<ConfigurableVLNVReference> SWInstance::createComponentReference(LibraryInterface* library, const QDomNode& node) const
 {
     QDomNamedNodeMap attributeMap = node.attributes();
 
     QString vendor = attributeMap.namedItem(QStringLiteral("vendor")).nodeValue();
-    QString library = attributeMap.namedItem(QStringLiteral("library")).nodeValue();
+    QString vLibrary = attributeMap.namedItem(QStringLiteral("library")).nodeValue();
     QString name = attributeMap.namedItem(QStringLiteral("name")).nodeValue();
     QString version = attributeMap.namedItem(QStringLiteral("version")).nodeValue();
 
-    QSharedPointer<ConfigurableVLNVReference> vlnvReference(
-        new ConfigurableVLNVReference(VLNV::COMPONENT, vendor, library, name, version));
+    VLNV vlnv(VLNV::COMPONENT, vendor, vLibrary, name, version);
+
+    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library->getVLNVReference(vlnv);
 
     QDomNode configurableElementsNode = node.firstChildElement(QStringLiteral("ipxact:configurableElementValues"));
 
