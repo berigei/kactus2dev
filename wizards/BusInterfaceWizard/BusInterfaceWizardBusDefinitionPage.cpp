@@ -116,7 +116,7 @@ void BusInterfaceWizardBusDefinitionEditorPage::initializePage()
     }
 
     editor_.setAbsDef(absDef);   
-    editor_.setBusDef(handler_->getModel(busIf_->getBusType()).dynamicCast<BusDefinition>());
+    editor_.setBusDef(handler_->getModel(*busIf_->getBusType().data()).dynamicCast<BusDefinition>());
     editor_.setProtection(!newAbsDef);   
 }
 

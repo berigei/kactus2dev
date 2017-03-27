@@ -163,7 +163,7 @@ QVariant BusInterfacesModel::data(QModelIndex const& index, int role) const
         }
         else if (index.column() == BusInterfaceColumns::BUSDEF)
         {
-            return busInterface->getBusType().toString(":");
+            return busInterface->getBusType()->toString(":");
         }
         else if (index.column() == BusInterfaceColumns::ABSDEF)
         {
@@ -262,7 +262,7 @@ bool BusInterfacesModel::setData(QModelIndex const& index, const QVariant& value
         else if (index.column() == BusInterfaceColumns::BUSDEF)
         {
             VLNV busType = VLNV(VLNV::BUSDEFINITION, value.toString(), ":");
-            busInterface->setBusType(busType);
+            busInterface->setBusType(libHandler_->getConfigurableVLNVReference(busType));
         }
         else if (index.column() == BusInterfaceColumns::ABSDEF)
         {
@@ -271,8 +271,8 @@ bool BusInterfacesModel::setData(QModelIndex const& index, const QVariant& value
                 busInterface->getAbstractionTypes()->append(QSharedPointer<AbstractionType>(new AbstractionType()));
             }
 
-            QSharedPointer<ConfigurableVLNVReference> absType(new ConfigurableVLNVReference(VLNV(
-                VLNV::ABSTRACTIONDEFINITION, value.toString(), ":")));
+            QSharedPointer<ConfigurableVLNVReference> absType = libHandler_->getConfigurableVLNVReference(VLNV(
+                VLNV::ABSTRACTIONDEFINITION, value.toString(), ":"));
             busInterface->getAbstractionTypes()->first()->setAbstractionRef(absType);
         }
         else if (index.column() == BusInterfaceColumns::INTERFACE_MODE)

@@ -18,7 +18,7 @@ AbstractorInstance::AbstractorInstance():
 instanceName_(),
 displayName_(),
 description_(),
-abstractorRef_(new ConfigurableVLNVReference()),
+abstractorRef_(),
 viewName_()
 {
 

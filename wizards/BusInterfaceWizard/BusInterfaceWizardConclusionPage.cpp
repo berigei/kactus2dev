@@ -64,7 +64,7 @@ void BusInterfaceWizardConclusionPage::initializePage()
     // Set label texts.
     nameLabel_.setText(busIf_->name());
     modeLabel_.setText(General::interfaceMode2Str(busIf_->getInterfaceMode()));
-    busDefLabel_.setText(busIf_->getBusType().toString());
+    busDefLabel_.setText(busIf_->getBusType()->toString());
     absDefLabel_.setText(busIf_->getAbstractionTypes()->first()->getAbstractionRef()->toString());
 
     // Search through all ports to see which ones are mapped in port maps.

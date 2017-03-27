@@ -403,43 +403,43 @@ QSharedPointer<Document> LibraryData::getModel(VLNV const& vlnv)
     // Create correct type of object.
     if (toCreate.getType() == VLNV::ABSTRACTIONDEFINITION)
     {
-        AbstractionDefinitionReader reader;
+        AbstractionDefinitionReader reader(handler_);
         return reader.createAbstractionDefinitionFrom(doc);
     }
     else if (toCreate.getType() == VLNV::BUSDEFINITION)
     {
-        BusDefinitionReader reader;
+        BusDefinitionReader reader(handler_);
         return reader.createBusDefinitionFrom(doc);
     }
     else if (toCreate.getType() == VLNV::CATALOG)
     {
-        CatalogReader reader;
+        CatalogReader reader(handler_);
         return reader.createCatalogFrom(doc);
     }
     else if (toCreate.getType() == VLNV::COMPONENT)
     {
-        ComponentReader reader;
+        ComponentReader reader(handler_);
         return reader.createComponentFrom(doc);
     }
     else if (toCreate.getType() == VLNV::DESIGN)
 	{
-        DesignReader reader;
+        DesignReader reader(handler_);
         return reader.createDesignFrom(doc);
     }
     else if (toCreate.getType() == VLNV::DESIGNCONFIGURATION)
     {
-        DesignConfigurationReader reader;
+        DesignConfigurationReader reader(handler_);
         return reader.createDesignConfigurationFrom(doc);
     }
 
     else if (toCreate.getType() == VLNV::APIDEFINITION)
     {
-        ApiDefinitionReader reader;
+        ApiDefinitionReader reader(handler_);
         return reader.createApiDefinitionFrom(doc);
     }
     else if (toCreate.getType() == VLNV::COMDEFINITION)
     {
-		ComDefinitionReader reader;
+		ComDefinitionReader reader(handler_);
 		return reader.createComDefinitionFrom(doc);
     }
     else

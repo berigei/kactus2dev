@@ -121,8 +121,7 @@ void ComponentPreviewBox::updatePreview()
 
             QSharedPointer<ComponentInstance> componentInstance(new ComponentInstance());
             componentInstance->setInstanceName(component_->getVlnv().getName());
-            componentInstance->setComponentRef(QSharedPointer<ConfigurableVLNVReference>(
-                new ConfigurableVLNVReference(component_->getVlnv())));
+            componentInstance->setComponentRef(lh_->getConfigurableVLNVReference(component_->getVlnv()));
 
             item = new HWComponentItem(lh_, componentInstance, component_);
         }
@@ -130,8 +129,7 @@ void ComponentPreviewBox::updatePreview()
 		{
 			QSharedPointer<SWInstance> swInstance(new SWInstance());
 			swInstance->setInstanceName(component_->getVlnv().getName());
-			swInstance->setComponentRef(QSharedPointer<ConfigurableVLNVReference>(
-				new ConfigurableVLNVReference(component_->getVlnv())));
+			swInstance->setComponentRef(lh_->getConfigurableVLNVReference(component_->getVlnv()));
 
             item = new SWComponentItem(lh_, component_, swInstance);
         }

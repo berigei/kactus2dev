@@ -201,6 +201,7 @@
     <ClCompile Include="common\validators\ValueFormatter.cpp" />
     <ClCompile Include="common\Vector.cpp" />
     <ClCompile Include="common\VLNV.cpp" />
+    <ClCompile Include="common\VLNVReference.cpp" />
     <ClCompile Include="Component\AddressBlock.cpp" />
     <ClCompile Include="Component\AddressBlockReader.cpp" />
     <ClCompile Include="Component\AddressBlockWriter.cpp" />
@@ -1398,6 +1399,7 @@
     <ClInclude Include="common\Vector.h" />
     <ClInclude Include="common\VendorExtension.h" />
     <ClInclude Include="common\VLNV.h" />
+    <ClInclude Include="common\VLNVReference.h" />
     <ClInclude Include="Component\AddressBlock.h" />
     <CustomBuild Include="Component\AddressBlockReader.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

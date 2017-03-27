@@ -323,7 +323,7 @@ void InterfaceEditor::setBusInterface()
 {
     Q_ASSERT(interface_->getBusInterface());
     
-    busType_.setVLNV(interface_->getBusInterface()->getBusType(), true);
+    busType_.setVLNV(*interface_->getBusInterface()->getBusType(), true);
 
     setNameAndDescription(&busNameEditor_, &busDescriptionEditor_);
 

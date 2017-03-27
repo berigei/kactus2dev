@@ -113,7 +113,7 @@ void BusIfInterfaceMonitor::refresh()
 			systemGroup_.setEnabled(true);
 
 			// find the current bus definition
-			VLNV busDefVLNV = busif_->getBusType();
+			VLNV busDefVLNV = *busif_->getBusType();
 			
 			// if there is no bus definition
 			if (!libHandler_->contains(busDefVLNV))
@@ -190,7 +190,7 @@ void BusIfInterfaceMonitor::onInterfaceModeChange( General::InterfaceMode mode )
     {
         systemGroup_.setEnabled(true);
         // find the current bus definition
-        VLNV busDefVLNV = busif_->getBusType();
+        VLNV busDefVLNV = *busif_->getBusType();
 
 			// if there is no bus definition
         if (libHandler_->contains(busDefVLNV))

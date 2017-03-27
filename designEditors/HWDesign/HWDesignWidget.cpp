@@ -297,8 +297,7 @@ bool HWDesignWidget::saveAs()
         {
             if (configuration->name() == openView->getDesignConfigurationInstantiationRef())
             {
-                configuration->setDesignConfigurationReference(QSharedPointer<ConfigurableVLNVReference>(
-                    new ConfigurableVLNVReference(desConfVLNV)));
+                configuration->setDesignConfigurationReference(getLibraryInterface()->getConfigurableVLNVReference(desConfVLNV));
             }
         }
 
@@ -311,8 +310,7 @@ bool HWDesignWidget::saveAs()
         {
             if (designInstantiation->name() == openView->getDesignInstantiationRef())
             {
-                designInstantiation->setDesignReference(QSharedPointer<ConfigurableVLNVReference>(
-                    new ConfigurableVLNVReference(designVLNV)));
+                designInstantiation->setDesignReference(getLibraryInterface()->getConfigurableVLNVReference(designVLNV));
             }
         }
 
@@ -787,8 +785,7 @@ void HWDesignWidget::createDesignForComponent(QSharedPointer<Component> componen
     
     QSharedPointer<DesignConfigurationInstantiation> configuration(new DesignConfigurationInstantiation());
     configuration->setName(configurationName);
-    configuration->setDesignConfigurationReference(
-        QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(desConfVLNV)));
+    configuration->setDesignConfigurationReference(getLibraryInterface()->getConfigurableVLNVReference(desConfVLNV));
 
 	model->getViews()->append(hierView);
 

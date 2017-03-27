@@ -21,6 +21,7 @@ class Design;
 class LibraryItem;
 class Document;
 class ConfigurableVLNVReference;
+class VLNVReference;
 
 //-----------------------------------------------------------------------------
 //! LibraryInterface defines an interface to operate the IP-XACT-library.
@@ -208,9 +209,9 @@ public:
 	*/
 	virtual bool isValid(VLNV const& vlnv) = 0;
 
-    virtual QSharedPointer<ConfigurableVLNVReference> getVLNVReference(QSharedPointer<Document> document) = 0;
+    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv) = 0;
 
-    virtual QSharedPointer<ConfigurableVLNVReference> getVLNVReference(const VLNV& configurableVLNV) = 0;
+    virtual QSharedPointer<VLNVReference> getVLNVReference(const VLNV& vlnv) = 0;
 
 public slots:
 

@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // File: ConfigurableVLNVReference.cpp
 //-----------------------------------------------------------------------------
-// Project: Kactus 2
+// Project: Kactus2
 // Author: Mikko Teuho
 // Date: 04.08.2015
 //
@@ -14,8 +14,8 @@
 //-----------------------------------------------------------------------------
 // Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
 //-----------------------------------------------------------------------------
-ConfigurableVLNVReference::ConfigurableVLNVReference():
-VLNV(),
+ConfigurableVLNVReference::ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference):
+VLNVReference(vlnv, documentReference),
 configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 {
 
@@ -25,7 +25,7 @@ configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 // Function: ConfigurableVLNVReference::ConfigurableVLNVReferenceCopy()
 //-----------------------------------------------------------------------------
 ConfigurableVLNVReference::ConfigurableVLNVReference(const ConfigurableVLNVReference& other):
-VLNV(other),
+VLNVReference(other),
 configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 {
     foreach (QSharedPointer<ConfigurableElementValue> configurable, *other.configurableElementValues_)
@@ -40,50 +40,11 @@ configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 }
 
 //-----------------------------------------------------------------------------
-// Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
-//-----------------------------------------------------------------------------
-/*ConfigurableVLNVReference::ConfigurableVLNVReference(const IPXactType& type, const QString& vendor,
-    const QString& library, const QString& name, const QString& version):
-VLNV(type, vendor, library, name, version),
-configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
-{
-
-}
-
-//-----------------------------------------------------------------------------
-// Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
-//-----------------------------------------------------------------------------
-ConfigurableVLNVReference::ConfigurableVLNVReference(const VLNV& configurableVLNV):
-VLNV(configurableVLNV),
-configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> > )
-{
-
-}*/
-
-//-----------------------------------------------------------------------------
-// Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
-//-----------------------------------------------------------------------------
-ConfigurableVLNVReference::ConfigurableVLNVReference(QWeakPointer<Document> document):
-document_(document),
-    configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> > )
-{
-
-}
-
-//-----------------------------------------------------------------------------
 // Function: ConfigurableVLNVReference::~ConfigurableVLNVReference()
 //-----------------------------------------------------------------------------
 ConfigurableVLNVReference::~ConfigurableVLNVReference()
 {
     configurableElementValues_->clear();
-}
-
-//-----------------------------------------------------------------------------
-// Function: ConfigurableVLNVReference::setVLNV()
-//-----------------------------------------------------------------------------
-void ConfigurableVLNVReference::setVLNV(VLNV const& vlnv)
-{
-    VLNV::operator=(vlnv);
 }
 
 //-----------------------------------------------------------------------------

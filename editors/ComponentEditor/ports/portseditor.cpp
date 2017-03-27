@@ -243,10 +243,9 @@ void PortsEditor::onCreateNewInteface(QStringList const& selectedPorts)
 
     busIf->setName(ifName);
     QSharedPointer<AbstractionType> abstractionVLNV(new AbstractionType());
-    abstractionVLNV->setAbstractionRef(QSharedPointer<ConfigurableVLNVReference>(
-        new ConfigurableVLNVReference(absVLNV)));
+    abstractionVLNV->setAbstractionRef(handler_->getConfigurableVLNVReference(absVLNV));
     busIf->getAbstractionTypes()->append(abstractionVLNV);
-    busIf->setBusType(busVLNV);
+    busIf->setBusType(handler_->getConfigurableVLNVReference(busVLNV));
 
     // Open the bus interface wizard.
     BusInterfaceWizard wizard(component_, busIf, handler_, selectedPorts, this, absVLNV, 
@@ -277,9 +276,6 @@ void PortsEditor::onCreateInterface(QStringList const& selectedPorts)
     QSharedPointer<BusInterface> busIf(new BusInterface());
     
     QSharedPointer<AbstractionType> abstraction(new AbstractionType());
-    QSharedPointer<ConfigurableVLNVReference> abstractionReference(new ConfigurableVLNVReference());
-    abstractionReference->setType(VLNV::ABSTRACTIONDEFINITION);
-    abstraction->setAbstractionRef(abstractionReference);
     
     busIf->getAbstractionTypes()->append(abstraction);
 

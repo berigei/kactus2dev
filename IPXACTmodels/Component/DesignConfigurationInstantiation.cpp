@@ -20,7 +20,7 @@ NameGroup(name, displayName, description),
 Extendable(),
 language_(),
 languageStrictness_(),
-designConfigurationRef_(new ConfigurableVLNVReference()),
+designConfigurationRef_(),
 parameters_(new QList<QSharedPointer<Parameter> > ())
 {
 

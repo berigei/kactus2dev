@@ -2263,7 +2263,7 @@ void MainWindow::createDesign(KactusAttribute::ProductHierarchy prodHier, Kactus
         newHierarchicalView->setName("hierarchical");
     }
 
-    QSharedPointer<ConfigurableVLNVReference> tempReference (new ConfigurableVLNVReference(desConfVLNV));
+    QSharedPointer<ConfigurableVLNVReference> tempReference = libraryHandler_->getConfigurableVLNVReference(desConfVLNV);
 
     QSharedPointer<DesignConfigurationInstantiation> hierarchicalInstantiation
         (new DesignConfigurationInstantiation(desConfVLNV.getName() + "_" + desConfVLNV.getVersion()));
@@ -2376,8 +2376,7 @@ void MainWindow::createDesignForExistingComponent(VLNV const& vlnv)
     VLNV designConfigVLNV = dialog.getDesignConfVLNV();
     QSharedPointer<DesignConfigurationInstantiation> hierarchyInstantiation
         (new DesignConfigurationInstantiation(designConfigVLNV.getName() + "_" + designConfigVLNV.getVersion()));
-	hierarchyInstantiation->setDesignConfigurationReference(
-		QSharedPointer<ConfigurableVLNVReference>( new ConfigurableVLNVReference( designConfigVLNV ) ) );
+	hierarchyInstantiation->setDesignConfigurationReference(libraryHandler_->getConfigurableVLNVReference(designConfigVLNV));
 
     view->setDesignConfigurationInstantiationRef(hierarchyInstantiation->name());
 
@@ -2493,7 +2492,7 @@ void MainWindow::createSWDesign(VLNV const& vlnv, QString const& directory)
     // Create the view.
     QSharedPointer<View> view (new View("software"));
 
-    QSharedPointer<ConfigurableVLNVReference> tempReference (new ConfigurableVLNVReference(desConfVLNV));
+    QSharedPointer<ConfigurableVLNVReference> tempReference = libraryHandler_->getConfigurableVLNVReference(desConfVLNV); 
 
     QSharedPointer<DesignConfigurationInstantiation> hierarchicalInstantiation
         (new DesignConfigurationInstantiation(desConfVLNV.getName() + "_" + desConfVLNV.getVersion()));
@@ -2609,7 +2608,7 @@ void MainWindow::createSWDesign(VLNV const& vlnv)
     // Create the view.
     QSharedPointer<View> view (new View(dialog.getViewName()));
 
-    QSharedPointer<ConfigurableVLNVReference> tempReference (new ConfigurableVLNVReference(dialog.getDesignConfVLNV()));
+    QSharedPointer<ConfigurableVLNVReference> tempReference = libraryHandler_->getConfigurableVLNVReference(dialog.getDesignConfVLNV());
 
     QSharedPointer<DesignConfigurationInstantiation> hierarchicalInstantiation
         (new DesignConfigurationInstantiation(dialog.getDesignConfVLNV().getName() + "_" + dialog.getDesignConfVLNV().getVersion()));

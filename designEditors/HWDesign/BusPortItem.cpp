@@ -207,11 +207,11 @@ bool BusPortItem::isConnectionValid(ConnectionEndpoint const* other) const
     {
         return (otherBusIf->getInterfaceMode() == busInterface_->getInterfaceMode() ||
             other->getBusInterface()->getInterfaceMode() == General::INTERFACE_MODE_COUNT ||
-            !busInterface_->getBusType().isValid());
+            !busInterface_->getBusType()->isValid());
     }
 
     // If only one port has a bus definition defined at most, then the end points can be connected.
-    else if (!(busInterface_->getBusType().isValid() && otherBusIf->getBusType().isValid()))
+    else if (!(busInterface_->getBusType()->isValid() && otherBusIf->getBusType()->isValid()))
     {
         return true;
     }
@@ -565,7 +565,7 @@ QList<General::InterfaceMode> BusPortItem::getOpposingModes(QSharedPointer<BusIn
     if (sourceMode == General::MASTER)
     {
         QSharedPointer<BusDefinition const> busDef = 
-            library_->getModelReadOnly(busIf->getBusType()).dynamicCast<BusDefinition const>();
+            library_->getModelReadOnly(*busIf->getBusType().data()).dynamicCast<BusDefinition const>();
         if (busDef != 0 && busDef->getDirectConnection())
         {
             possibleModes.append(General::SLAVE);      
@@ -574,7 +574,7 @@ QList<General::InterfaceMode> BusPortItem::getOpposingModes(QSharedPointer<BusIn
     else if (sourceMode == General::SLAVE)
     {
         QSharedPointer<BusDefinition const> busDef = 
-            library_->getModelReadOnly(busIf->getBusType()).dynamicCast<BusDefinition const>();
+            library_->getModelReadOnly(*busIf->getBusType().data()).dynamicCast<BusDefinition const>();
         if (busDef != 0 && busDef->getDirectConnection())
         {
             possibleModes.append(General::MASTER);      

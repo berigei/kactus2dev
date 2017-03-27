@@ -18,7 +18,7 @@ DesignInstantiation::DesignInstantiation(QString const& name /* = QString() */,
     QString const& displayName /* = QString() */, QString const& description /* = QString() */) :
 NameGroup(name, displayName, description),
 Extendable(),
-designRef_(new ConfigurableVLNVReference())
+designRef_()
 {
 
 }

@@ -77,7 +77,8 @@ public:
 	 *      @return The model that matches the document.
 	*/
 	virtual QSharedPointer<Document const> getModelReadOnly(VLNV const& vlnv);
-	
+
+
 	/*! Checks if the library already contains the specified vlnv.
 	 *
 	 *      @param [in] vlnv The vlnv that is searched within the library.
@@ -245,7 +246,10 @@ public:
 	 *
 	 *      @return bool True if the object was valid. False if invalid or object was not found in library.
 	*/
-	virtual bool isValid(VLNV const& vlnv);
+    virtual bool isValid(VLNV const& vlnv);
+
+    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv);
+    virtual QSharedPointer<VLNVReference> getVLNVReference(const VLNV& vlnv);
 
 public slots:
 
@@ -482,6 +486,10 @@ private slots:
 
 private:
 
+    virtual QSharedPointer<QWeakPointer<Document> > getDocumentReference(const VLNV& vlnv);
+
+    void insertObject(VLNV const& vlnv, QSharedPointer<Document> libComp);
+
     //! No copying
     LibraryHandler(const LibraryHandler &other);
 
@@ -592,7 +600,9 @@ private:
 	 * Key = VLNV that identifies the library object.
 	 * Value = pointer to the library object that has been parsed.
 	 */
-	QMap<VLNV, QSharedPointer<Document> > objects_;
+    QMap<VLNV, QSharedPointer<Document> > objects_;
+
+    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > > references_;
 
     //! Validity status for library objects.
     QMap<VLNV, bool> objectValidity_;

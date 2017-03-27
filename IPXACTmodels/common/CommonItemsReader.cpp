@@ -136,7 +136,7 @@ QSharedPointer<ConfigurableVLNVReference> CommonItemsReader::parseConfigurableVL
 
     VLNV vlnv(type, vendor, library, name, version);
 
-    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library_->getVLNVReference(vlnv);
+    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library_->getConfigurableVLNVReference(vlnv);
 
     QDomNode configurableElementsNode = configurableVLNVNode.firstChildElement(QStringLiteral("ipxact:configurableElementValues"));
 

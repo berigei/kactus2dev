@@ -28,7 +28,7 @@ instanceName_(),
 displayName_(),
 description_(),
 isPresent_(),
-componentRef_(new ConfigurableVLNVReference())
+componentRef_()
 {
     if (getUuid().isEmpty())
     {

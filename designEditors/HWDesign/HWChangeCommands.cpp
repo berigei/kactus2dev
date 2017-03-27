@@ -608,7 +608,7 @@ void EndpointPropertyValuesChangeCommand::redo()
 //-----------------------------------------------------------------------------
 // Function: EndPointTypesCommand::EndPointTypesCommand()
 //-----------------------------------------------------------------------------
-EndPointTypesCommand::EndPointTypesCommand(ConnectionEndpoint* endpoint, VLNV const& busType, VLNV const& absType, 
+EndPointTypesCommand::EndPointTypesCommand(ConnectionEndpoint* endpoint, QSharedPointer<ConfigurableVLNVReference> const& busType, QSharedPointer<ConfigurableVLNVReference> const& absType, 
     QUndoCommand* parent):
 QUndoCommand(parent),
     endpoint_(endpoint),
@@ -625,7 +625,7 @@ QUndoCommand(parent),
             !endpoint_->getBusInterface()->getAbstractionTypes()->isEmpty() &&
             endpoint_->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef())
         {
-            oldAbsType_ = *endpoint_->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef();
+            oldAbsType_ = endpoint_->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef();
         }
     }
 }
@@ -664,7 +664,7 @@ void EndPointTypesCommand::redo()
 //-----------------------------------------------------------------------------
 // Function: EndPointTypesCommand::setTypes()
 //-----------------------------------------------------------------------------
-void EndPointTypesCommand::setTypes(VLNV const& busType, VLNV const& absType)
+void EndPointTypesCommand::setTypes(QSharedPointer<ConfigurableVLNVReference> const& busType, QSharedPointer<ConfigurableVLNVReference> const& absType)
 {
     // Disconnect the connections.
     if (endpoint_->getBusInterface()->getInterfaceMode() != General::INTERFACE_MODE_COUNT)
@@ -685,15 +685,15 @@ void EndPointTypesCommand::setTypes(VLNV const& busType, VLNV const& absType)
     endpoint_->getBusInterface()->setBusType(busType);
 
     QSharedPointer<AbstractionType> abstraction(new AbstractionType());
-    abstraction->setAbstractionRef(QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(absType)));
+    abstraction->setAbstractionRef(absType);
 
     endpoint_->getBusInterface()->getAbstractionTypes()->clear();
     endpoint_->getBusInterface()->getAbstractionTypes()->append(abstraction);
 
-    endpoint_->setTypeLocked(busType.isValid());
+    endpoint_->setTypeLocked(busType->isValid());
 
     // Undefined end points of the connections can now be defined.
-    if (busType.isValid())
+    if (busType->isValid())
     {
         foreach(GraphicsConnection* conn, endpoint_->getConnections())
         {

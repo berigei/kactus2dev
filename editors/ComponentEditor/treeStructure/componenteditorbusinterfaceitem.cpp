@@ -110,9 +110,9 @@ QString ComponentEditorBusInterfaceItem::getTooltip() const
 //-----------------------------------------------------------------------------
 bool ComponentEditorBusInterfaceItem::canBeOpened() const
 {
-	if (busif_->getBusType().isValid())
+	if (busif_->getBusType()->isValid())
     {
-		return libHandler_->contains(busif_->getBusType());
+		return libHandler_->contains(*busif_->getBusType());
 	}
 	else
     {
@@ -136,7 +136,7 @@ QList<QAction*> ComponentEditorBusInterfaceItem::actions() const
 //-----------------------------------------------------------------------------
 void ComponentEditorBusInterfaceItem::openItem() 
 {
-	VLNV busdefVLNV = busif_->getBusType();
+	VLNV busdefVLNV = *busif_->getBusType();
 
     if (busif_->getAbstractionTypes() && !busif_->getAbstractionTypes()->isEmpty())
     {

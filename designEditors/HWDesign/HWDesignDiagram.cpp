@@ -865,7 +865,10 @@ void HWDesignDiagram::setInterfaceVLNVatEndpoint(VLNV const& droppedVLNV)
 
     if (result == QDialog::Accepted)
     {             
-        QSharedPointer<QUndoCommand> typeCommand(new EndPointTypesCommand(dragEndPoint_, busVLNV, absdefVLNV));      
+        QSharedPointer<ConfigurableVLNVReference> busRef = getLibraryInterface()->getConfigurableVLNVReference(busVLNV);
+        QSharedPointer<ConfigurableVLNVReference> absdefRef = getLibraryInterface()->getConfigurableVLNVReference(absdefVLNV);
+
+        QSharedPointer<QUndoCommand> typeCommand(new EndPointTypesCommand(dragEndPoint_, busRef, absdefRef));      
         new EndpointChangeCommand(dragEndPoint_, dialog.getSelectedMode(), typeCommand.data());
 
         getEditProvider()->addCommand(typeCommand);
@@ -973,7 +976,7 @@ void HWDesignDiagram::updateDropAction(QGraphicsSceneDragDropEvent* event)
 
         // Allow the drop event if the end point is undefined.
         if (dragEndPoint_ != 0 && dragEndPoint_->isBus() && dragEndPoint_->isHierarchical() &&
-            (dragEndPoint_->getBusInterface() == 0 || !dragEndPoint_->getBusInterface()->getBusType().isValid()))
+            (dragEndPoint_->getBusInterface() == 0 || !dragEndPoint_->getBusInterface()->getBusType()->isValid()))
         {
             event->setDropAction(Qt::CopyAction);
             dragEndPoint_->setHighlight(ConnectionEndpoint::HIGHLIGHT_HOVER);
@@ -1466,12 +1469,12 @@ void HWDesignDiagram::copyMode(ConnectionEndpoint* sourceInterface, ConnectionEn
 void HWDesignDiagram::copyType(ConnectionEndpoint* definedPoint, ConnectionEndpoint* draftPoint,
     QUndoCommand* parentCommand)
 {
-    VLNV busVLNV = definedPoint->getBusInterface()->getBusType();
-    VLNV absVLNV;
+    QSharedPointer<ConfigurableVLNVReference> busVLNV = definedPoint->getBusInterface()->getBusType();
+    QSharedPointer<ConfigurableVLNVReference> absVLNV;
     if (!definedPoint->getBusInterface()->getAbstractionTypes()->isEmpty() &&
         definedPoint->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef())
     {
-        absVLNV = *definedPoint->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef();
+        absVLNV = definedPoint->getBusInterface()->getAbstractionTypes()->first()->getAbstractionRef();
     }
     
     QUndoCommand* typeChangeCommand = new EndPointTypesCommand(draftPoint, busVLNV, absVLNV, parentCommand);    
@@ -1918,8 +1921,7 @@ HWComponentItem* HWDesignDiagram::createComponentItem(QSharedPointer<Component> 
     {
         // Create the diagram component.                            
         QSharedPointer<ComponentInstance> componentInstance(new ComponentInstance());
-        componentInstance->setComponentRef(QSharedPointer<ConfigurableVLNVReference>(
-            new ConfigurableVLNVReference(comp->getVlnv())));
+        componentInstance->setComponentRef(getLibraryInterface()->getConfigurableVLNVReference(comp->getVlnv()));
 
         componentInstance->setInstanceName(instanceName);
 

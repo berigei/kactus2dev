@@ -380,7 +380,7 @@ void HierarchicalSaveBuildStrategy::updateDesignReferences(QSharedPointer<Design
     {
         if (*instance->getComponentRef() == childVLNV)
         {
-            instance->setComponentRef(QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(newChildVLNV)));
+            instance->setComponentRef(library_->getConfigurableVLNVReference(newChildVLNV));
         }
     }
 
@@ -388,8 +388,7 @@ void HierarchicalSaveBuildStrategy::updateDesignReferences(QSharedPointer<Design
     {
         if (*instance->getComponentRef() == childVLNV)
         {
-            instance->setComponentRef(
-                QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(newChildVLNV)));
+            instance->setComponentRef(library_->getConfigurableVLNVReference(newChildVLNV));
         }
     }
 }

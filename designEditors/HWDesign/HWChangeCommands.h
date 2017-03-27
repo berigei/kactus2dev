@@ -50,6 +50,7 @@ class Design;
 class HierInterface;
 class ViewConfiguration;
 class PortReference;
+class ConfigurableVLNVReference;
 
 
 //-----------------------------------------------------------------------------
@@ -777,7 +778,7 @@ public:
      *      @param [in] oldName           The end point's old name.
      *      @param [in] parent            The parent command.
      */
-    EndPointTypesCommand(ConnectionEndpoint* endpoint, VLNV const& busType, VLNV const& absType, QUndoCommand* parent = 0);
+    EndPointTypesCommand(ConnectionEndpoint* endpoint, QSharedPointer<ConfigurableVLNVReference> const& busType, QSharedPointer<ConfigurableVLNVReference> const& absType, QUndoCommand* parent = 0);
 
     /*!
      *  Destructor.
@@ -801,7 +802,7 @@ private:
     EndPointTypesCommand(EndPointTypesCommand const& rhs);
     EndPointTypesCommand& operator=(EndPointTypesCommand const& rhs);
 
-    void setTypes(VLNV const& busType, VLNV const& absType);
+    void setTypes(QSharedPointer<ConfigurableVLNVReference> const& busType, QSharedPointer<ConfigurableVLNVReference> const& absType);
 
     //-----------------------------------------------------------------------------
     // Data.
@@ -811,16 +812,16 @@ private:
     ConnectionEndpoint* endpoint_;
 
     //! The end point's old bus type.
-    VLNV oldBusType_;
+    QSharedPointer<ConfigurableVLNVReference> oldBusType_;
 
     //! The end point's old abs type.
-    VLNV oldAbsType_;
+    QSharedPointer<ConfigurableVLNVReference> oldAbsType_;
 
     //! The end point's new bus type.
-    VLNV newBusType_;
+    QSharedPointer<ConfigurableVLNVReference> newBusType_;
 
     //! The end point's new abs type.
-    VLNV newAbsType_;
+    QSharedPointer<ConfigurableVLNVReference> newAbsType_;
 };
 
 //-----------------------------------------------------------------------------

@@ -95,7 +95,7 @@ bool BusInterfaceWizardGeneralOptionsPage::mandatoryFieldsAreFilledIn() const
 {
     return !busIf_->name().isEmpty() &&
         busIf_->getInterfaceMode() != General::INTERFACE_MODE_COUNT &&
-        handler_->contains(busIf_->getBusType()) && 
+        handler_->contains(*busIf_->getBusType()) && 
         !busIf_->getAbstractionTypes()->isEmpty() && 
         handler_->contains(*busIf_->getAbstractionTypes()->first()->getAbstractionRef());
 }

@@ -235,7 +235,7 @@ void ConnectionEditor::setConnection(GraphicsConnection* connection, DesignDiagr
     else if (endpoint1->isBus())
     {
         type_.setTitle(tr("Bus type VLNV"));
-        type_.setVLNV(endpoint1->getBusInterface()->getBusType(), true);
+        type_.setVLNV(*endpoint1->getBusInterface()->getBusType(), true);
 
         absType_.setVLNV(findAbstractionVLNV(endpoint1->getBusInterface()), true);
 

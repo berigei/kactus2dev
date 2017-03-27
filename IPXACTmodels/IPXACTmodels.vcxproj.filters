@@ -1310,6 +1310,9 @@
     <ClCompile Include="Catalog\validators\CatalogValidator.cpp">
       <Filter>Source Files\Catalog\validators</Filter>
     </ClCompile>
+    <ClCompile Include="common\VLNVReference.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BusDefinition\BusDefinition.h">
@@ -1818,6 +1821,9 @@
     </ClInclude>
     <ClInclude Include="Catalog\validators\CatalogValidator.h">
       <Filter>Header Files\Catalog\validators</Filter>
+    </ClInclude>
+    <ClInclude Include="common\VLNVReference.h">
+      <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

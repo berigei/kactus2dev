@@ -286,7 +286,7 @@ bool BusInterfaceItem::isConnectionValid(ConnectionEndpoint const* other) const
     // the other end point is unpackaged, or the abstraction definitions of the bus interfaces
     // in each end point are equal.
     return (busInterface_->getInterfaceMode() == General::INTERFACE_MODE_COUNT ||
-        !otherBusIf->getBusType().isValid() ||
+        !otherBusIf->getBusType()->isValid() ||
         (otherBusIf->getBusType() == busInterface_->getBusType() &&
         *otherBusIf->getAbstractionTypes()->first()->getAbstractionRef() == 
         *busInterface_->getAbstractionTypes()->first()->getAbstractionRef()));

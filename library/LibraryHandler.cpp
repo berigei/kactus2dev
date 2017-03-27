@@ -123,7 +123,7 @@ QSharedPointer<Document> LibraryHandler::getModel(VLNV const& vlnv)
         if (document)
         {
             // save the parsed item to the map and return pointer to it
-            objects_.insert(vlnv, document);
+            insertObject(vlnv, document);
             QSharedPointer<Document> copy = document->clone();
             return copy;
         }
@@ -149,7 +149,7 @@ QSharedPointer<Document const> LibraryHandler::getModelReadOnly(VLNV const& vlnv
         if (libComp)
         {
             // save the parsed item to the map and return pointer to it
-            objects_.insert(vlnv, libComp);
+            insertObject(vlnv, libComp);
         }
 
         return libComp;
@@ -528,6 +528,30 @@ bool LibraryHandler::isValid(VLNV const& vlnv)
     bool valid = data_->validateDocument(document);
     objectValidity_.insert(vlnv, valid);
     return valid;
+}
+
+//-----------------------------------------------------------------------------
+// Function: LibraryHandler::getVLNVReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<ConfigurableVLNVReference> LibraryHandler::getConfigurableVLNVReference(const VLNV& vlnv)
+{
+    QSharedPointer<QWeakPointer<Document> > docRef = getDocumentReference(vlnv);
+
+    QSharedPointer<ConfigurableVLNVReference> retVal(new ConfigurableVLNVReference(vlnv, docRef));
+
+    return retVal;
+}
+
+//-----------------------------------------------------------------------------
+// Function: LibraryHandler::getVLNVReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<VLNVReference> LibraryHandler::getVLNVReference(const VLNV& vlnv)
+{
+    QSharedPointer<QWeakPointer<Document> > docRef = getDocumentReference(vlnv);
+
+    QSharedPointer<VLNVReference> retVal(new VLNVReference(vlnv, docRef));
+
+    return retVal;
 }
 
 //-----------------------------------------------------------------------------
@@ -1738,4 +1762,49 @@ bool LibraryHandler::containsPath(QString const& path, QStringList const& pathsT
 
 	// None of the paths to search were contained in the path.
 	return false;
+}
+
+//-----------------------------------------------------------------------------
+// Function: LibraryHandler::getDocumentReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<QWeakPointer<Document> > LibraryHandler::getDocumentReference(const VLNV& vlnv)
+{
+    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > >::iterator iter = references_.find(vlnv);
+    QSharedPointer<QWeakPointer<Document> > retVal;
+
+    if (iter == references_.end())
+    {
+        retVal = QSharedPointer<QWeakPointer<Document> >(new QWeakPointer<Document>);
+        references_.insert(vlnv, retVal);
+    }
+    else
+    {
+        retVal = *iter;
+    }
+
+    return retVal;
+}
+
+//-----------------------------------------------------------------------------
+// Function: LibraryHandler::insertObject()
+//-----------------------------------------------------------------------------
+void LibraryHandler::insertObject(VLNV const& vlnv, QSharedPointer<Document> libComp)
+{
+    objects_.insert(vlnv, libComp);
+
+    QSharedPointer<QWeakPointer<Document> > docRef;
+    QWeakPointer<Document>* weakref = new QWeakPointer<Document>(libComp.toWeakRef());
+
+    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > >::iterator iter = references_.find(vlnv);
+
+    if (iter == references_.end())
+    {
+        docRef = QSharedPointer<QWeakPointer<Document> >(weakref);
+        references_.insert(vlnv, docRef);
+    }
+    else
+    {
+        docRef = *iter;
+        docRef.reset(weakref);
+    }
 }

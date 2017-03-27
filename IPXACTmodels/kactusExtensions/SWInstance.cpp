@@ -494,7 +494,7 @@ QSharedPointer<ConfigurableVLNVReference> SWInstance::createComponentReference(L
 
     VLNV vlnv(VLNV::COMPONENT, vendor, vLibrary, name, version);
 
-    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library->getVLNVReference(vlnv);
+    QSharedPointer<ConfigurableVLNVReference> vlnvReference = library->getConfigurableVLNVReference(vlnv);
 
     QDomNode configurableElementsNode = node.firstChildElement(QStringLiteral("ipxact:configurableElementValues"));
 

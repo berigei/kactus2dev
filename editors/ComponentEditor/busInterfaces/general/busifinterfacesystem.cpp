@@ -86,7 +86,7 @@ void BusIfInterfaceSystem::refresh()
 	groupEditor_.clear();
 
 	// the selected bus definition defines the groups that can be used
-	VLNV busDefVLNV = busif_->getBusType();
+	VLNV busDefVLNV = *busif_->getBusType();
 	
 	// if there is no bus definition specified there is nothing to select
 	if (!busDefVLNV.isValid()) {

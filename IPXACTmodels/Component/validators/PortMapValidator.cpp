@@ -84,7 +84,7 @@ void PortMapValidator::abstractionDefinitionChanged(QSharedPointer<AbstractionDe
     {
         abstractionDefinition_ = newDefinition;
 
-        QSharedPointer<ConfigurableVLNVReference> newAbstractionReference = libraryHandler_->getVLNVReference(newDefinition->getVlnv());
+        QSharedPointer<ConfigurableVLNVReference> newAbstractionReference = libraryHandler_->getConfigurableVLNVReference(newDefinition->getVlnv());
         abstractionReference_ = newAbstractionReference;
     }
 

@@ -1092,8 +1092,7 @@ QSharedPointer<SWInstance> SystemDesignDiagram::createSWInstance(QSharedPointer<
 	QSharedPointer<SWInstance> swInstance(new SWInstance());
 	QString instanceName = createInstanceName(comp->getVlnv().getName());
 	swInstance->setInstanceName(instanceName);
-	swInstance->setComponentRef( QSharedPointer<ConfigurableVLNVReference>(
-		new ConfigurableVLNVReference(comp->getVlnv()) ) );
+	swInstance->setComponentRef(getLibraryInterface()->getConfigurableVLNVReference(comp->getVlnv()));
 
 	return swInstance;
 }

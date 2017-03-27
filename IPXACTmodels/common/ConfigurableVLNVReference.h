@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // File: ConfigurableVLNVReference.h
 //-----------------------------------------------------------------------------
-// Project: Kactus 2
+// Project: Kactus2
 // Author: Mikko Teuho
 // Date: 04.08.2015
 //
@@ -13,16 +13,13 @@
 #define CONFIGURABLEVLNVREFERENCE_H
 
 #include <IPXACTmodels/common/VLNV.h>
-#include <IPXACTmodels/common/Document.h>
-#include <IPXACTmodels/ipxactmodels_global.h>
+#include <IPXACTmodels/common/VLNVReference.h>
 #include <IPXACTmodels/common/ConfigurableElementValue.h>
-
-#include <QSharedPointer>
 
 //-----------------------------------------------------------------------------
 //! Configurable VLNV reference matching ipxact type configurableLibraryReference.
 //-----------------------------------------------------------------------------
-class IPXACTMODELS_EXPORT ConfigurableVLNVReference : public VLNV
+class IPXACTMODELS_EXPORT ConfigurableVLNVReference : public VLNVReference
 {
 
 public:
@@ -30,7 +27,7 @@ public:
     /*!
      *  The constructor.
      */
-    ConfigurableVLNVReference();
+    ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference);
 
     /*!
      *  The copy constructor.
@@ -38,37 +35,9 @@ public:
     ConfigurableVLNVReference(const ConfigurableVLNVReference& other);
 
     /*!
-     *  The constructor.
-     *
-     *      @param [in] type        The ipxact type.
-     *      @param [in] vendor      The vendor.
-     *      @param [in] library     The library.
-     *      @param [in] name        The name.
-     *      @param [in] version     The version.
-     */
-    //ConfigurableVLNVReference(const IPXactType& type, const QString& vendor, const QString& library,
-    //    const QString& name, const QString& version);
-
-    /*!
-     *  Constructor with VLNV information.
-     *
-     *      @param [in] configurableVLNV    The configurable VLNV.
-     */
-    //ConfigurableVLNVReference(const VLNV& configurableVLNV);
-
-    ConfigurableVLNVReference(QWeakPointer<Document> document);
-
-    /*!
      *  The destructor.
      */
     ~ConfigurableVLNVReference();
-
-    /*!
-     *  Sets the VLNV reference.
-     *
-     *      @param [in] vlnv   The VLNV to set.
-     */
-    void setVLNV(VLNV const& vlnv);
 
     /*!
      *  Get the list of configurable element values.
@@ -107,8 +76,6 @@ private:
 
     //! A list of configurable element values
     QSharedPointer<QList<QSharedPointer<ConfigurableElementValue> > > configurableElementValues_;
-
-    QWeakPointer<Document> document_;
 };
 
 #endif // CONFIGURABLEVLNVREFERENCE_H

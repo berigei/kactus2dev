@@ -263,7 +263,7 @@ void ConfigurationEditor::onAdd()
 
         view->setDesignConfigurationInstantiationRef(viewName);
 
-        QSharedPointer<ConfigurableVLNVReference> configurationReference (new ConfigurableVLNVReference(configVLNV));
+        QSharedPointer<ConfigurableVLNVReference> configurationReference = library_->getConfigurableVLNVReference(configVLNV);
         
         QSharedPointer<DesignConfigurationInstantiation> instantiation 
             (new DesignConfigurationInstantiation(viewName));
