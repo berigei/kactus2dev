@@ -85,7 +85,7 @@ public:
      *
      *      @return VLNV element representing the design.
      */
-    VLNV getDesignRef() const;
+    QSharedPointer<VLNVReference> getDesignRef() const;
 
     /*!
      *  Get the list of generator chain configurations.
@@ -111,9 +111,9 @@ public:
     /*!
      *  Set the design reference.
      *
-     *      @param [in] designRef   A VLNV tag that identifies the design.
+     *      @param [in] designRef   A VLNV reference that identifies the design.
      */
-    void setDesignRef(const VLNV& designRef);
+    void setDesignRef(const QSharedPointer<VLNVReference> designRef);
 
     /*!
      *  Set the generator chain configurations.
@@ -256,7 +256,7 @@ private:
     //-----------------------------------------------------------------------------
 
     //! The design.
-    VLNV designRef_;
+    QSharedPointer<VLNVReference> designRef_;
 
     //! A list containing pointers to the generator chain configurations.
     QSharedPointer<QList<QSharedPointer<ConfigurableVLNVReference> > > generatorChainConfigurations_;

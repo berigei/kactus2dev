@@ -247,9 +247,16 @@ public:
 	 *      @return bool True if the object was valid. False if invalid or object was not found in library.
 	*/
     virtual bool isValid(VLNV const& vlnv);
-
-    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv);
+    
+	/*! 
+	 *  Returns a VLNV reference pointing to the document of given VLNV.
+     */
     virtual QSharedPointer<VLNVReference> getVLNVReference(const VLNV& vlnv);
+    
+	/*! 
+	 *  Returns a configurable VLNV reference pointing to the document of given VLNV.
+     */
+    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv);
 
 public slots:
 
@@ -486,7 +493,7 @@ private slots:
 
 private:
 
-    virtual QSharedPointer<QWeakPointer<Document> > getDocumentReference(const VLNV& vlnv);
+    virtual QSharedPointer<QSharedPointer<Document> > getDocumentReference(const VLNV& vlnv);
 
     void insertObject(VLNV const& vlnv, QSharedPointer<Document> libComp);
 
@@ -602,7 +609,7 @@ private:
 	 */
     QMap<VLNV, QSharedPointer<Document> > objects_;
 
-    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > > references_;
+    QMap<VLNV, QSharedPointer<QSharedPointer<Document> > > references_;
 
     //! Validity status for library objects.
     QMap<VLNV, bool> objectValidity_;

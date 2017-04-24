@@ -88,11 +88,11 @@ bool DesignConfigurationValidator::hasValidVLNV(QSharedPointer<DesignConfigurati
 bool DesignConfigurationValidator::hasValidDesignReference(QSharedPointer<DesignConfiguration> designConfiguration)
     const
 {
-    if (!designConfiguration->getDesignRef().isEmpty())
+    if (!designConfiguration->getDesignRef()->isEmpty())
     {
-        return designConfiguration->getDesignRef().getType() == VLNV::DESIGN &&
-            libraryHandler_->contains(designConfiguration->getDesignRef()) &&
-            designConfiguration->getDesignRef().isValid();
+        return designConfiguration->getDesignRef()->getType() == VLNV::DESIGN &&
+            libraryHandler_->contains(*designConfiguration->getDesignRef()) &&
+            designConfiguration->getDesignRef()->isValid();
     }
 
     return true;
@@ -144,10 +144,10 @@ bool DesignConfigurationValidator::hasValidInterconnectionConfigurations(
 {
     if (!designConfiguration->getInterconnectionConfs()->isEmpty())
     {
-        if (designConfiguration->getDesignRef().isValid())
+        if (designConfiguration->getDesignRef()->isValid())
         {
             QSharedPointer<Design> referencedDesign =
-                libraryHandler_->getDesign(designConfiguration->getDesignRef());
+                libraryHandler_->getDesign(*designConfiguration->getDesignRef());
             interconnectionValidator_->designChanged(referencedDesign);
 
             QVector<QString> interconnectionReferences;
@@ -180,10 +180,10 @@ bool DesignConfigurationValidator::hasValidViewConfigurations(
 {
     if (!designConfiguration->getViewConfigurations()->isEmpty())
     {
-        if (designConfiguration->getDesignRef().isValid())
+        if (designConfiguration->getDesignRef()->isValid())
         {
             QSharedPointer<Design> referencedDesign =
-                libraryHandler_->getDesign(designConfiguration->getDesignRef());
+                libraryHandler_->getDesign(*designConfiguration->getDesignRef());
             viewConfigurationValidator_->changeComponentInstances(referencedDesign->getComponentInstances());
 
             QVector<QString> instanceNames;
@@ -286,16 +286,16 @@ void DesignConfigurationValidator::findErrorsInVLNV(QVector<QString>& errors,
 void DesignConfigurationValidator::findErrorsInDesignReference(QVector<QString>& errors,
     QSharedPointer<DesignConfiguration> designConfiguration, QString const& context) const
 {
-    if (!designConfiguration->getDesignRef().isEmpty())
+    if (!designConfiguration->getDesignRef()->isEmpty())
     {
-        if (!libraryHandler_->contains(designConfiguration->getDesignRef()))
+        if (!libraryHandler_->contains(*designConfiguration->getDesignRef()))
         {
             errors.append(QObject::tr("Design reference %1 within %2 was not found in the "
                 "library")
-                .arg(designConfiguration->getDesignRef().toString()).arg(context));
+                .arg(designConfiguration->getDesignRef()->toString()).arg(context));
         }
 
-        designConfiguration->getDesignRef().isValid(errors, QLatin1String("design reference"));
+        designConfiguration->getDesignRef()->isValid(errors, QLatin1String("design reference"));
     }
 }
 
@@ -346,10 +346,10 @@ void DesignConfigurationValidator::findErrorsInInterconnectionConfigurations(QVe
     QSharedPointer<DesignConfiguration> designConfiguration, QString const& context) const
 {
     if (!designConfiguration->getInterconnectionConfs()->isEmpty() &&
-        designConfiguration->getDesignRef().isValid())
+        designConfiguration->getDesignRef()->isValid())
     {
         QSharedPointer<Design> referencedDesign =
-            libraryHandler_->getDesign(designConfiguration->getDesignRef());
+            libraryHandler_->getDesign(*designConfiguration->getDesignRef());
         interconnectionValidator_->designChanged(referencedDesign);
 
         QVector<QString> connectionReferences;
@@ -380,10 +380,10 @@ void DesignConfigurationValidator::findErrorsInViewConfigurations(QVector<QStrin
 {
     if (!designConfiguration->getViewConfigurations()->isEmpty())
     {
-        if (designConfiguration->getDesignRef().isValid())
+        if (designConfiguration->getDesignRef()->isValid())
         {
             QSharedPointer<Design> referencedDesign =
-                libraryHandler_->getDesign(designConfiguration->getDesignRef());
+                libraryHandler_->getDesign(*designConfiguration->getDesignRef());
 
             if (referencedDesign)
             {

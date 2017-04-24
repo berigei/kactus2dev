@@ -87,12 +87,23 @@ protected:
     void parseVendorExtensions(QDomNode const& itemNode, QSharedPointer<Extendable> element) const;
 
     /*!
-     *  Parses a configurable VLNV.
+     *  Parses a VLNV reference.
+     *
+     *      @param [in] vlnvNode    The XML description of the VLNV.
+     *      @param [in] type        The type of the  VLNV.
+     *
+     *      @return A VLNV reference.
+     */
+    QSharedPointer<VLNVReference> parseVLNVReference(
+        QDomNode const& vlnvNode, VLNV::IPXactType type) const;
+
+    /*!
+     *  Parses a configurable VLNV reference.
      *
      *      @param [in] configurableVLNVNode    The XML description of the configurable VLNV.
      *      @param [in] type                    The type of the configurable VLNV.
      *
-     *      @return A VLNV with configurable element values.
+     *      @return A VLNV reference with configurable element values.
      */
     QSharedPointer<ConfigurableVLNVReference> parseConfigurableVLNVReference(
         QDomNode const& configurableVLNVNode, VLNV::IPXactType type) const;

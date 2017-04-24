@@ -166,7 +166,7 @@ void MetaDesign::parseInstances()
     {
         // We must get its component through VLNV.
         VLNV instanceVLNV = design_->getHWComponentVLNV(instance->getInstanceName());
-        QSharedPointer<Component> component = library_->getModel(instanceVLNV).dynamicCast<Component>();
+        QSharedPointer<Component> component = instance->getComponentRef()->getDocumentReference().dynamicCast<Component>();
 
         if (!component)
         {
@@ -744,7 +744,7 @@ void MetaDesign::findHierarchy(QSharedPointer<MetaInstance> mInstance)
     if (dis && dis->getDesignReference())
     {
         // Try to find the referred design.
-        subDesign = library_->getModel(*(dis->getDesignReference())).dynamicCast<Design>();
+        subDesign = dis->getDesignReference()->getDocumentReference().dynamicCast<Design>();
 
         // If instantiation exists, the referred document must exist!
         if (!subDesign)
@@ -760,8 +760,7 @@ void MetaDesign::findHierarchy(QSharedPointer<MetaInstance> mInstance)
     if (disg && disg->getDesignConfigurationReference())
     {
         // Try to find the referred design configuration.
-        subDesignConfiguration = library_->getModel(*(disg->getDesignConfigurationReference()))
-            .dynamicCast<DesignConfiguration>();
+        subDesignConfiguration = disg->getDesignConfigurationReference()->getDocumentReference().dynamicCast<DesignConfiguration>();
 
         // If instantiation exists, the referred document must exist!
         if (!subDesignConfiguration)
@@ -777,21 +776,21 @@ void MetaDesign::findHierarchy(QSharedPointer<MetaInstance> mInstance)
         if (subDesign)
         {
             // If the design is already found, check for discrepancy.
-            if (subDesignConfiguration->getDesignRef() != subDesign->getVlnv())
+            if (*subDesignConfiguration->getDesignRef() != subDesign->getVlnv())
             {
                 messages_->errorMessage(QObject::tr
                     ("Design %1: Design configuration %2 of sub design %3 refers to different VLNV: %4")
                     .arg(design_->getVlnv().toString(),
                     subDesignConfiguration->getVlnv().toString(),
                     subDesign->getVlnv().toString(),
-                    subDesignConfiguration->getDesignRef().toString()));
+                    subDesignConfiguration->getDesignRef()->toString()));
                 return;
             }
         }
         else
         {
             // Else pick the referred design as sub design.
-            subDesign = library_->getModel(subDesignConfiguration->getDesignRef()).dynamicCast<Design>();
+            subDesign = subDesignConfiguration->getDesignRef()->getDocumentReference().dynamicCast<Design>();
         }
     }
 

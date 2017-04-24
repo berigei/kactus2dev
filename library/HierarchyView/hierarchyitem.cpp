@@ -756,7 +756,7 @@ VLNV HierarchyItem::findDesignReference(QSharedPointer<View> view)
                 else
                 {
                     QSharedPointer<Document const> document = library_->getModelReadOnly(configurationVLNV);
-                    return document.dynamicCast<DesignConfiguration const>()->getDesignRef();
+                    return *(document.dynamicCast<DesignConfiguration const>()->getDesignRef());
                 }
             }
         }

@@ -208,10 +208,16 @@ public:
 	 *      @return bool True if the object was valid. False if invalid or object was not found in library.
 	*/
 	virtual bool isValid(VLNV const& vlnv) = 0;
-
-    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv) = 0;
-
+    
+	/*! 
+	 *  Returns a VLNV reference pointing to the document of given VLNV.
+     */
     virtual QSharedPointer<VLNVReference> getVLNVReference(const VLNV& vlnv) = 0;
+    
+	/*! 
+	 *  Returns a configurable VLNV reference pointing to the document of given VLNV.
+     */
+    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv) = 0;
 
 public slots:
 

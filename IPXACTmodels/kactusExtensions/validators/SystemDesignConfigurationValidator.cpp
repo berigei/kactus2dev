@@ -52,10 +52,10 @@ bool SystemDesignConfigurationValidator::hasValidViewConfigurations(
 {
     if (!designConfiguration->getViewConfigurations()->isEmpty())
     {
-        if (designConfiguration->getDesignRef().isValid())
+        if (designConfiguration->getDesignRef()->isValid())
         {
             QSharedPointer<Design> referencedDesign =
-                getLibraryHandler()->getDesign(designConfiguration->getDesignRef());
+                getLibraryHandler()->getDesign(*designConfiguration->getDesignRef());
 
             QSharedPointer<QList<QSharedPointer<ComponentInstance> > > hwInstances =
                 referencedDesign->getComponentInstances();
@@ -122,10 +122,10 @@ void SystemDesignConfigurationValidator::findErrorsInViewConfigurations(QVector<
 {
     if (!designConfiguration->getViewConfigurations()->isEmpty())
     {
-        if (designConfiguration->getDesignRef().isValid())
+        if (designConfiguration->getDesignRef()->isValid())
         {
             QSharedPointer<Design> referencedDesign =
-                getLibraryHandler()->getDesign(designConfiguration->getDesignRef());
+                getLibraryHandler()->getDesign(*designConfiguration->getDesignRef());
 
             QSharedPointer<QList<QSharedPointer<ComponentInstance> > > hwInstances;
 

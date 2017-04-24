@@ -196,7 +196,7 @@ bool HWDesignWidget::setDesign(QSharedPointer<Component> component, QString cons
         designConfiguration = getLibraryInterface()->getModel(configurationVLNV).dynamicCast<DesignConfiguration>();       
         if (designConfiguration)
         {
-            design = getLibraryInterface()->getModel(designConfiguration->getDesignRef()).dynamicCast<Design>();
+            design = designConfiguration->getDesignRef()->getDocumentReference().dynamicCast<Design>();
         }
 
         if (!design)
@@ -290,7 +290,7 @@ bool HWDesignWidget::saveAs()
 		// make a copy of the design configuration
 		designConf = QSharedPointer<DesignConfiguration>(new DesignConfiguration(*designConf));
 		designConf->setVlnv(desConfVLNV);
-		designConf->setDesignRef(designVLNV);
+		designConf->setDesignRef(getLibraryInterface()->getVLNVReference(designVLNV));
 
         foreach (QSharedPointer<DesignConfigurationInstantiation> configuration, 
             *topComponent->getDesignConfigurationInstantiations())
@@ -791,7 +791,7 @@ void HWDesignWidget::createDesignForComponent(QSharedPointer<Component> componen
 
 	// create the design configuration
 	QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(desConfVLNV));
-	designConf->setDesignRef(designVLNV);
+	designConf->setDesignRef(getLibraryInterface()->getVLNVReference(designVLNV));
 
 	QSharedPointer<Design> newDesign = QSharedPointer<Design>(new Design(designVLNV));
 

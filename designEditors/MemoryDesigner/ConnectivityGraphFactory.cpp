@@ -778,16 +778,16 @@ QSharedPointer<const DesignConfiguration> ConnectivityGraphFactory::getHierarchi
 QSharedPointer<const Design> ConnectivityGraphFactory::getHierarchicalDesign(QSharedPointer<const Component> component,
     QSharedPointer<const View> hierarchicalView, QSharedPointer<const DesignConfiguration> designConfiguration) const
 {
-    VLNV designVLNV = getHierarchicalDesignVLNV(component, hierarchicalView);
+    QSharedPointer<VLNVReference> designVLNV = getHierarchicalDesignVLNV(component, hierarchicalView);
 
-    if (!designVLNV.isValid())
+    if (!designVLNV->isValid())
     {
         designVLNV = designConfiguration->getDesignRef();        
     }
 
-    if (designVLNV.isValid())
+    if (designVLNV->isValid())
     {
-        return library_->getModelReadOnly(designVLNV).dynamicCast<const Design>();
+        return designVLNV->getDocumentReference().dynamicCast<const Design>();
     }
 
     return QSharedPointer<const Design>();
@@ -796,7 +796,7 @@ QSharedPointer<const Design> ConnectivityGraphFactory::getHierarchicalDesign(QSh
 //-----------------------------------------------------------------------------
 // Function: ConnectivityGraphFactory::getHierarchicalDesignVLNV()
 //-----------------------------------------------------------------------------
-VLNV ConnectivityGraphFactory::getHierarchicalDesignVLNV(QSharedPointer<const Component> component,
+QSharedPointer<ConfigurableVLNVReference> ConnectivityGraphFactory::getHierarchicalDesignVLNV(QSharedPointer<const Component> component,
     QSharedPointer<const View> hierarchicalView) const
 {
     QString referencedInstantiation = hierarchicalView->getDesignInstantiationRef();
@@ -807,10 +807,10 @@ VLNV ConnectivityGraphFactory::getHierarchicalDesignVLNV(QSharedPointer<const Co
         {
             if (instantiation->name().compare(referencedInstantiation) == 0)
             {
-                return *instantiation->getDesignReference();
+                return instantiation->getDesignReference();
             }
         }
     }
 
-    return VLNV();
+    return QSharedPointer<ConfigurableVLNVReference>();
 }

@@ -6,7 +6,7 @@
 // Date: 04.08.2015
 //
 // Description:
-// Configurable VLNV reference matching ipxact type configurableLibraryReference.
+// Configurable VLNV reference matching IP-XACT type configurableLibraryReference.
 //-----------------------------------------------------------------------------
 
 #ifndef CONFIGURABLEVLNVREFERENCE_H
@@ -17,7 +17,7 @@
 #include <IPXACTmodels/common/ConfigurableElementValue.h>
 
 //-----------------------------------------------------------------------------
-//! Configurable VLNV reference matching ipxact type configurableLibraryReference.
+//! Configurable VLNV reference matching IP-XACT type configurableLibraryReference.
 //-----------------------------------------------------------------------------
 class IPXACTMODELS_EXPORT ConfigurableVLNVReference : public VLNVReference
 {
@@ -26,11 +26,13 @@ public:
 
     /*!
      *  The constructor.
+     *  PRECONDITION: documentReference must point to an existing weak pointer.
      */
-    ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference);
+    ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QSharedPointer<Document> > documentReference);
 
     /*!
      *  The copy constructor.
+     *  PRECONDITION: documentReference must point to an existing weak pointer.
      */
     ConfigurableVLNVReference(const ConfigurableVLNVReference& other);
 

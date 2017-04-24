@@ -72,14 +72,7 @@ void DesignConfigurationReader::parseDesignReference(QDomNode const& designConfi
 {
     QDomNode designReferenceNode = designConfigurationNode.firstChildElement(QStringLiteral("ipxact:designRef"));
 
-    QDomNamedNodeMap attributeMap = designReferenceNode.attributes();
-
-    QString vendor = attributeMap.namedItem(QStringLiteral("vendor")).nodeValue();
-    QString library = attributeMap.namedItem(QStringLiteral("library")).nodeValue();
-    QString name = attributeMap.namedItem(QStringLiteral("name")).nodeValue();
-    QString version = attributeMap.namedItem(QStringLiteral("version")).nodeValue();
-
-    VLNV designReferenceVLNV(VLNV::DESIGN, vendor, library, name, version);
+    QSharedPointer<VLNVReference> designReferenceVLNV = parseVLNVReference(designReferenceNode, VLNV::DESIGN);
     newDesignConfiguration->setDesignRef(designReferenceVLNV);
 }
 

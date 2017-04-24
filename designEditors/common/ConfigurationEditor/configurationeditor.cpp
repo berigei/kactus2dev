@@ -238,7 +238,7 @@ void ConfigurationEditor::onAdd()
     else if (dialog.designSelection() == CreateConfigurationDialog::CREATE_EMPTY)
     {
         VLNV designVLNV = dialog.getDesignVLNV();
-        desConf->setDesignRef(designVLNV);
+        desConf->setDesignRef(library_->getVLNVReference(designVLNV));
 
         QSharedPointer<Design> design = QSharedPointer<Design>(new Design(designVLNV));
         library_->writeModelToFile(directoryPath, design);
@@ -247,7 +247,7 @@ void ConfigurationEditor::onAdd()
     else // CreateConfigurationDialog::CREATE_COPY
     {
         VLNV designVLNV = dialog.getDesignVLNV();
-        desConf->setDesignRef(designVLNV);
+        desConf->setDesignRef(library_->getVLNVReference(designVLNV));
 
         QSharedPointer<Design> design = designWidget_->getDiagram()->getDesign();
         design->setVlnv(designVLNV);
@@ -349,7 +349,7 @@ void ConfigurationEditor::onRemove()
 	if (library_->getDocumentType(configVLNV) == VLNV::DESIGNCONFIGURATION)
     {
 		QSharedPointer<DesignConfiguration> desConf = libComp.staticCast<DesignConfiguration>();
-		designVLNV = desConf->getDesignRef();
+		designVLNV = *desConf->getDesignRef();
 	}
 	else if (library_->getDocumentType(configVLNV) == VLNV::DESIGN)
     {
@@ -399,7 +399,7 @@ void ConfigurationEditor::onRemove()
 		// if one of the remaining configurations references to the design
 		libComp = library_->getModel(ref);
 		QSharedPointer<DesignConfiguration> desConf = libComp.dynamicCast<DesignConfiguration>();
-		if (desConf && desConf->getDesignRef() == designVLNV)
+		if (desConf && *desConf->getDesignRef() == designVLNV)
         {
 			removeDesign = false;
 		}

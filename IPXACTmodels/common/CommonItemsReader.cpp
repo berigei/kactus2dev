@@ -122,19 +122,27 @@ void CommonItemsReader::parseVendorExtensions(QDomNode const& itemNode, QSharedP
 }
 
 //-----------------------------------------------------------------------------
+// Function: CommonItemsReader::parseVLNVReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<VLNVReference> CommonItemsReader::parseVLNVReference(
+    QDomNode const& vlnvNode, VLNV::IPXactType type) const
+{
+    QDomNamedNodeMap attributeMap = vlnvNode.attributes();
+    VLNV vlnv = parseVLNVAttributes(vlnvNode, type);
+
+    QSharedPointer<VLNVReference> vlnvReference = library_->getVLNVReference(vlnv);
+
+    return vlnvReference;
+}
+
+//-----------------------------------------------------------------------------
 // Function: CommonItemsReader::parseConfigurableVLNVReference()
 //-----------------------------------------------------------------------------
 QSharedPointer<ConfigurableVLNVReference> CommonItemsReader::parseConfigurableVLNVReference(
     QDomNode const& configurableVLNVNode, VLNV::IPXactType type) const
 {
     QDomNamedNodeMap attributeMap = configurableVLNVNode.attributes();
-
-    QString vendor = attributeMap.namedItem(QStringLiteral("vendor")).nodeValue();
-    QString library = attributeMap.namedItem(QStringLiteral("library")).nodeValue();
-    QString name = attributeMap.namedItem(QStringLiteral("name")).nodeValue();
-    QString version = attributeMap.namedItem(QStringLiteral("version")).nodeValue();
-
-    VLNV vlnv(type, vendor, library, name, version);
+    VLNV vlnv = parseVLNVAttributes(configurableVLNVNode, type);
 
     QSharedPointer<ConfigurableVLNVReference> vlnvReference = library_->getConfigurableVLNVReference(vlnv);
 

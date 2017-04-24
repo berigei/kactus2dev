@@ -215,6 +215,16 @@ public:
     *      @return Description.
     */
     virtual bool isValid(const VLNV& vlnv);
+    
+	/*! 
+	 *  Returns a VLNV reference pointing to the document of given VLNV.
+     */
+    virtual QSharedPointer<VLNVReference> getVLNVReference(const VLNV& vlnv);
+    
+	/*! 
+	 *  Returns a configurable VLNV reference pointing to the document of given VLNV.
+     */
+    virtual QSharedPointer<ConfigurableVLNVReference> getConfigurableVLNVReference(const VLNV& vlnv);
 
 public slots:
 

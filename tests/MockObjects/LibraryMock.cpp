@@ -296,3 +296,50 @@ void LibraryMock::endSave()
 {
    Q_ASSERT(false);
 }
+
+//-----------------------------------------------------------------------------
+// Function: LibraryMock::getVLNVReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<VLNVReference> LibraryMock::getVLNVReference(const VLNV& vlnv)
+{
+    QSharedPointer<Document>* weakref;
+
+    if (components_.contains(vlnv))
+    {
+        weakref = new QSharedPointer<Document>(components_[vlnv]);
+    }
+    else
+    {
+        weakref = new QSharedPointer<Document>();
+    }
+
+
+    QSharedPointer<QSharedPointer<Document> > docRef = QSharedPointer<QSharedPointer<Document> >(weakref);
+
+    QSharedPointer<VLNVReference> retVal(new VLNVReference(vlnv, docRef));
+
+    return retVal;
+}
+
+//-----------------------------------------------------------------------------
+// Function: LibraryMock::getConfigurableVLNVReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<ConfigurableVLNVReference> LibraryMock::getConfigurableVLNVReference(const VLNV& vlnv)
+{
+    QSharedPointer<Document>* weakref;
+
+    if (components_.contains(vlnv))
+    {
+        weakref = new QSharedPointer<Document>(components_[vlnv]);
+    }
+    else
+    {
+        weakref = new QSharedPointer<Document>();
+    }
+
+    QSharedPointer<QSharedPointer<Document> > docRef = QSharedPointer<QSharedPointer<Document> >(weakref);
+
+    QSharedPointer<ConfigurableVLNVReference> retVal(new ConfigurableVLNVReference(vlnv, docRef));
+
+    return retVal;
+}

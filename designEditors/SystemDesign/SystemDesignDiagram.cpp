@@ -1011,7 +1011,7 @@ void SystemDesignDiagram::dropEvent(QGraphicsSceneDragDropEvent *event)
 
             QSharedPointer<DesignConfiguration> desConf(new DesignConfiguration(*getDesignConfiguration()));
             desConf->setVlnv(desConfVLNV);
-            desConf->setDesignRef(designVLNV);
+            desConf->setDesignRef(this->getLibraryInterface()->getVLNVReference(designVLNV));
 
             QSharedPointer<Design> design = getDesign();
             design->setVlnv(designVLNV);

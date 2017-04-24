@@ -2283,7 +2283,7 @@ void MainWindow::createDesign(KactusAttribute::ProductHierarchy prodHier, Kactus
     design->setVersion(VersionHelper::versionFileStr());
 
 	QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(desConfVLNV));
-	designConf->setDesignRef(designVLNV);
+	designConf->setDesignRef(libraryHandler_->getVLNVReference(designVLNV));
     designConf->setDesignConfigImplementation(KactusAttribute::HW);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -2385,7 +2385,7 @@ void MainWindow::createDesignForExistingComponent(VLNV const& vlnv)
 
     // Create the design and design configuration objects.
     QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(dialog.getDesignConfVLNV()));
-    designConf->setDesignRef(dialog.getDesignVLNV());
+    designConf->setDesignRef(libraryHandler_->getVLNVReference(dialog.getDesignVLNV()));
     designConf->setDesignConfigImplementation(KactusAttribute::HW);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -2509,7 +2509,7 @@ void MainWindow::createSWDesign(VLNV const& vlnv, QString const& directory)
     design->setVersion(VersionHelper::versionFileStr());
     
     QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(desConfVLNV));
-    designConf->setDesignRef(designVLNV);
+    designConf->setDesignRef(libraryHandler_->getVLNVReference(designVLNV));
     designConf->setDesignConfigImplementation(KactusAttribute::SW);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -2623,7 +2623,7 @@ void MainWindow::createSWDesign(VLNV const& vlnv)
 
     // Create the design and design configuration objects.
     QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(dialog.getDesignConfVLNV()));
-    designConf->setDesignRef(dialog.getDesignVLNV());
+    designConf->setDesignRef(libraryHandler_->getVLNVReference(dialog.getDesignVLNV()));
     designConf->setDesignConfigImplementation(KactusAttribute::SW);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -2764,7 +2764,7 @@ void MainWindow::createSystem(VLNV const& compVLNV, QString const& viewName, VLN
 
 	// Create the design configuration.
 	QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(desConfVLNV));
-	designConf->setDesignRef(designVLNV);
+	designConf->setDesignRef(libraryHandler_->getVLNVReference(designVLNV));
     designConf->setDesignConfigImplementation(KactusAttribute::SYSTEM);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -2869,7 +2869,7 @@ void MainWindow::createSystemDesign(VLNV const& vlnv)
 
     // Create the design and design configuration objects to the same folder as the component.
     QSharedPointer<DesignConfiguration> designConf(new DesignConfiguration(dialog.getDesignConfVLNV()));
-    designConf->setDesignRef(dialog.getDesignVLNV());
+    designConf->setDesignRef(libraryHandler_->getVLNVReference(dialog.getDesignVLNV()));
     designConf->setDesignConfigImplementation(KactusAttribute::SYSTEM);
     designConf->setVersion(VersionHelper::versionFileStr());
 
@@ -4473,7 +4473,7 @@ bool MainWindow::hasInvalidReferences(QList<VLNV> hierRefs, VLNV const& referenc
 
             QSharedPointer<Document> libComp2 = libraryHandler_->getModel(ref);
             QSharedPointer<DesignConfiguration> desConf = libComp2.staticCast<DesignConfiguration>();
-            VLNV refToDesign = desConf->getDesignRef();
+            VLNV refToDesign = *desConf->getDesignRef();
 
             // if the referenced design was not found in the library
             if (!designVLNV.isValid())

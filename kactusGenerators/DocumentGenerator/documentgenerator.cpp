@@ -986,7 +986,7 @@ void DocumentGenerator::writeView( QSharedPointer<View> view, QTextStream& strea
 		desConf = libComp.staticCast<DesignConfiguration>();
 		desConfVLNV = desConf->getVlnv();
 
-		designVLNV = desConf->getDesignRef();
+		designVLNV = *desConf->getDesignRef();
 		// if design vlnv was not found in library
 		if (!handler_->contains(designVLNV)) {
 			QString errorMsg(tr("VLNV: %1:%2:%3:%4 was not found in library.").arg(

@@ -6,7 +6,7 @@
 // Date: 25.03.2017
 //
 // Description:
-// VLNV reference matching ipxact type libraryReference.
+// VLNV reference matching IP-XACT type libraryReference.
 //-----------------------------------------------------------------------------
 
 #ifndef VLNVREFERENCE_H
@@ -16,7 +16,7 @@
 #include <IPXACTmodels/common/Document.h>
 
 //-----------------------------------------------------------------------------
-//! VLNV reference matching ipxact type libraryReference.
+//! VLNV reference matching IP-XACT type libraryReference.
 //-----------------------------------------------------------------------------
 class IPXACTMODELS_EXPORT VLNVReference : public VLNV
 {
@@ -25,11 +25,13 @@ public:
 
     /*!
      *  The constructor.
+     *  PRECONDITION: documentReference must point to an existing weak pointer.
      */
-    VLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference);
+    VLNVReference(VLNV const& vlnv, QSharedPointer<QSharedPointer<Document> > documentReference);
 
     /*!
      *  The copy constructor.
+     *  PRECONDITION: documentReference must point to an existing weak pointer.
      */
     VLNVReference(const VLNVReference& other);
 
@@ -44,10 +46,15 @@ public:
      *      @param [in] vlnv   The VLNV to set.
      */
     void setVLNV(VLNV const& vlnv);
+
+    /*!
+     *  Gets the reference to the document.
+     */
+    QSharedPointer<Document> getDocumentReference() const;
     
 private:
 
-    QSharedPointer<QWeakPointer<Document> > documentReference_;
+    QSharedPointer<QSharedPointer<Document> > documentReference_;
 };
 
 #endif // VLNVREFERENCE_H

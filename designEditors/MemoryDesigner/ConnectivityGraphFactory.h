@@ -375,7 +375,7 @@ private:
      *
      *      @return The VLNV of the design referenced by the selected view.
      */
-    VLNV getHierarchicalDesignVLNV(QSharedPointer<const Component> component,
+    QSharedPointer<ConfigurableVLNVReference> getHierarchicalDesignVLNV(QSharedPointer<const Component> component,
         QSharedPointer<const View> hierarchicalView) const;
 
     //-----------------------------------------------------------------------------

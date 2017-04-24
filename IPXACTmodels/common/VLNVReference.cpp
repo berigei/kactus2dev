@@ -14,10 +14,11 @@
 //-----------------------------------------------------------------------------
 // Function: VLNVReference::VLNVReference()
 //-----------------------------------------------------------------------------
-VLNVReference::VLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference):
+VLNVReference::VLNVReference(VLNV const& vlnv, QSharedPointer<QSharedPointer<Document> > documentReference):
 VLNV(vlnv),
 documentReference_(documentReference)
 {
+    Q_ASSERT(documentReference_);
 }
 
 //-----------------------------------------------------------------------------
@@ -27,6 +28,7 @@ VLNVReference::VLNVReference(const VLNVReference& other):
 VLNV(other),
 documentReference_(other.documentReference_)
 {
+    Q_ASSERT(documentReference_);
 }
 
 //-----------------------------------------------------------------------------
@@ -42,4 +44,12 @@ VLNVReference::~VLNVReference()
 void VLNVReference::setVLNV(VLNV const& vlnv)
 {
     VLNV::operator=(vlnv);
+}
+
+//-----------------------------------------------------------------------------
+// Function: VLNVReference::getDocumentReference()
+//-----------------------------------------------------------------------------
+QSharedPointer<Document> VLNVReference::getDocumentReference() const
+{
+    return *documentReference_;
 }

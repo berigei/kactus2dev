@@ -42,7 +42,7 @@ bool getDesign(LibraryInterface* lh, VLNV& designVLNV,
     {
         designConf = lh->getModelReadOnly(designVLNV).staticCast<DesignConfiguration const>();
 
-        designVLNV = designConf->getDesignRef();
+        designVLNV = *designConf->getDesignRef();
         if (designVLNV.isValid())
         {
             design = lh->getModelReadOnly(designVLNV).staticCast<Design const>();

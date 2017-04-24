@@ -78,7 +78,7 @@ VLNV DesignWidget::getIdentifyingVLNV() const
     const QSharedPointer<DesignConfiguration> designConf = diagram_->getDesignConfiguration();
 
     if (designConf) {
-        return designConf->getDesignRef();
+        return *designConf->getDesignRef();
     }
     else {
         return editedComponent_->getHierRef(viewName_);

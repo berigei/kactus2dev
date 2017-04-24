@@ -180,7 +180,7 @@ bool SystemDesignWidget::setDesign(QSharedPointer<Component> comp, const QString
         QSharedPointer<Document> libComp = getLibraryInterface()->getModel(designVLNV);
         designConf = libComp.staticCast<DesignConfiguration>();
 
-        designVLNV = designConf->getDesignRef();
+        designVLNV = *designConf->getDesignRef();
 
         if (designVLNV.isValid())
         {
@@ -567,7 +567,7 @@ bool SystemDesignWidget::saveAs()
         // Make a copy of the design configuration with the new VLNVs.
         designConf = QSharedPointer<DesignConfiguration>(new DesignConfiguration(*designConf));
         designConf->setVlnv(desConfVLNV);
-        designConf->setDesignRef(designVLNV);
+        designConf->setDesignRef(getLibraryInterface()->getVLNVReference(designVLNV));
 
 		openView->setHierarchyRef( desConfVLNV );
 
@@ -674,7 +674,7 @@ VLNV SystemDesignWidget::getIdentifyingVLNV() const
 
     if (designConf)
     {
-        return designConf->getDesignRef();
+        return *designConf->getDesignRef();
     }
     else
     {

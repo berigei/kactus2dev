@@ -664,7 +664,7 @@ QSharedPointer<Component> tst_VerilogWriterFactory::addTestComponentToLibrary(VL
 //-----------------------------------------------------------------------------
 QSharedPointer<MetaInstance> tst_VerilogWriterFactory::addInstanceToDesign(QString instanceName, QSharedPointer<Component> component)
 {
-    QSharedPointer<ConfigurableVLNVReference> componentVLNV (new ConfigurableVLNVReference(component->getVlnv()));
+    QSharedPointer<ConfigurableVLNVReference> componentVLNV = library_.getConfigurableVLNVReference(component->getVlnv());
     QSharedPointer<ComponentInstance> instance (new ComponentInstance(instanceName, componentVLNV));
     QSharedPointer<ListParameterFinder> topFinder;
     QSharedPointer<QList<QSharedPointer<ConfigurableElementValue> > > cevs;
@@ -1477,8 +1477,8 @@ void tst_VerilogWriterFactory::testDescriptionAndVLNVIsPrintedAboveInstance()
     QFETCH(QString, description);
     QFETCH(QString, expectedOutput);
     
-    QSharedPointer<ConfigurableVLNVReference> instanceVLNV(
-		new ConfigurableVLNVReference(VLNV::COMPONENT, "Test", "TestLibrary", "TestComponent", "1.0"));
+    QSharedPointer<ConfigurableVLNVReference> instanceVLNV = library_.getConfigurableVLNVReference
+		(VLNV(VLNV::COMPONENT, "Test", "TestLibrary", "TestComponent", "1.0"));
 
 	QSharedPointer<Component> comp = addTestComponentToLibrary(*instanceVLNV);
 

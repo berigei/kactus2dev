@@ -198,7 +198,7 @@ void DesignConfiguration::setViewConfigurations(
 //-----------------------------------------------------------------------------
 // Function: DesignConfiguration::setDesignRef()
 //-----------------------------------------------------------------------------
-void DesignConfiguration::setDesignRef(const VLNV& designRef)
+void DesignConfiguration::setDesignRef(QSharedPointer<VLNVReference> designRef)
 {
     // save new designRef
     designRef_ = designRef;
@@ -236,7 +236,7 @@ void DesignConfiguration::setGeneratorChainConfs(
 //-----------------------------------------------------------------------------
 // Function: DesignConfiguration::getDesignRef()
 //-----------------------------------------------------------------------------
-VLNV DesignConfiguration::getDesignRef() const
+QSharedPointer<VLNVReference> DesignConfiguration::getDesignRef() const
 {
     return designRef_;
 }
@@ -265,9 +265,9 @@ QList<VLNV> DesignConfiguration::getDependentVLNVs() const
 	QList<VLNV> vlnvList;
 
 	// Append the vlnv of the design that is associated with this designConfiguration.
-	if (designRef_.isValid())
+	if (designRef_->isValid())
     {
-		vlnvList.append(designRef_);
+		vlnvList.append(*designRef_);
 	}
 
 	// Append all vlnvs representing generator chains associated with this design configuration.

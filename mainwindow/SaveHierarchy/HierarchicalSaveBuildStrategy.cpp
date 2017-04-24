@@ -316,14 +316,12 @@ void HierarchicalSaveBuildStrategy::updateComponentReferences(QSharedPointer<Com
 
                     VLNV configVLNV(VLNV::DESIGNCONFIGURATION, updatedReference.toString());
                     configVLNV.setName(configVLNV.getName() + "cfg");
+                    QSharedPointer<ConfigurableVLNVReference> configVLNVRef = library_->getConfigurableVLNVReference(configVLNV);
 
                     config->setVlnv(configVLNV);
-                    config->setDesignRef(updatedReference);
+                    config->setDesignRef(library_->getVLNVReference(updatedReference));
 
-                    instantiation->getDesignConfigurationReference()->setVendor(configVLNV.getVendor());
-                    instantiation->getDesignConfigurationReference()->setLibrary(configVLNV.getLibrary());
-                    instantiation->getDesignConfigurationReference()->setName(configVLNV.getName());
-                    instantiation->getDesignConfigurationReference()->setVersion(configVLNV.getVersion());
+                    instantiation->setDesignConfigurationReference(configVLNVRef);
 
                     saveToLibrary(hierarchyReference, config);
 
@@ -336,10 +334,7 @@ void HierarchicalSaveBuildStrategy::updateComponentReferences(QSharedPointer<Com
             {
                 if (instantiation->name() == designName)
                 {
-                    instantiation->getDesignReference()->setVendor(updatedReference.getVendor());
-                    instantiation->getDesignReference()->setLibrary(updatedReference.getLibrary());
-                    instantiation->getDesignReference()->setName(updatedReference.getName());
-                    instantiation->getDesignReference()->setVersion(updatedReference.getVersion());
+                    instantiation->setDesignReference(library_->getConfigurableVLNVReference(updatedReference));
                     break;
                 }
             }
@@ -355,13 +350,13 @@ void HierarchicalSaveBuildStrategy::updateComponentReferences(QSharedPointer<Com
         {
             view->setHierarchyRef(updatedReference);
         }
-        else if (config && config->getDesignRef() == reference)
+        else if (config && *config->getDesignRef() == reference)
         {
             VLNV configVLNV(VLNV::DESIGNCONFIGURATION, updatedReference.toString());
             configVLNV.setName(configVLNV.getName() + "cfg");
 
             config->setVlnv(configVLNV);
-            config->setDesignRef(updatedReference);
+            config->setDesignRef(library_->getVLNVReference(updatedReference));
 
             view->setHierarchyRef(configVLNV);
 

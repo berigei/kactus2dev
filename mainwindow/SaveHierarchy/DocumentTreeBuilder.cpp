@@ -124,7 +124,7 @@ QObject* DocumentTreeBuilder::createFromDesignConfiguration(VLNV const& designCo
     QSharedPointer<Document const> configModel = library_->getModelReadOnly(designConfiguration);
     QSharedPointer<DesignConfiguration const> configuration = configModel.dynamicCast<DesignConfiguration const>();
 
-    VLNV designRef = configuration->getDesignRef();
+    VLNV designRef = *configuration->getDesignRef();
 
     if (library_->contains(designRef))
     {

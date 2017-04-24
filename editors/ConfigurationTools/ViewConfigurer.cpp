@@ -221,9 +221,7 @@ void ViewConfigurer::checkInstanceDesign(QSharedPointer<Component> component, QS
 
             if (viewDesignConfiguration)
             {
-                VLNV designReference = viewDesignConfiguration->getDesignRef();
-
-                QSharedPointer<Design> viewDesign = libraryHandler_->getModel(designReference).
+                QSharedPointer<Design> viewDesign = viewDesignConfiguration->getDesignRef()->getDocumentReference().
                     dynamicCast<Design>();
 
                 if (viewDesign)

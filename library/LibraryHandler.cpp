@@ -445,7 +445,7 @@ VLNV LibraryHandler::getDesignVLNV(VLNV const& hierarchyRef)
         QSharedPointer<const DesignConfiguration> desConf = 
             getModelReadOnly(hierarchyRef).staticCast<const DesignConfiguration>();
 
-        VLNV designVLNV = desConf->getDesignRef();
+        VLNV designVLNV = *desConf->getDesignRef();
         if (!data_->contains(designVLNV)) 
         {
             QString errorMsg(tr("VLNV: %1 was not found in library.").arg(designVLNV.toString()));
@@ -533,11 +533,11 @@ bool LibraryHandler::isValid(VLNV const& vlnv)
 //-----------------------------------------------------------------------------
 // Function: LibraryHandler::getVLNVReference()
 //-----------------------------------------------------------------------------
-QSharedPointer<ConfigurableVLNVReference> LibraryHandler::getConfigurableVLNVReference(const VLNV& vlnv)
+QSharedPointer<VLNVReference> LibraryHandler::getVLNVReference(const VLNV& vlnv)
 {
-    QSharedPointer<QWeakPointer<Document> > docRef = getDocumentReference(vlnv);
+    QSharedPointer<QSharedPointer<Document> > docRef = getDocumentReference(vlnv);
 
-    QSharedPointer<ConfigurableVLNVReference> retVal(new ConfigurableVLNVReference(vlnv, docRef));
+    QSharedPointer<VLNVReference> retVal(new VLNVReference(vlnv, docRef));
 
     return retVal;
 }
@@ -545,11 +545,11 @@ QSharedPointer<ConfigurableVLNVReference> LibraryHandler::getConfigurableVLNVRef
 //-----------------------------------------------------------------------------
 // Function: LibraryHandler::getVLNVReference()
 //-----------------------------------------------------------------------------
-QSharedPointer<VLNVReference> LibraryHandler::getVLNVReference(const VLNV& vlnv)
+QSharedPointer<ConfigurableVLNVReference> LibraryHandler::getConfigurableVLNVReference(const VLNV& vlnv)
 {
-    QSharedPointer<QWeakPointer<Document> > docRef = getDocumentReference(vlnv);
+    QSharedPointer<QSharedPointer<Document> > docRef = getDocumentReference(vlnv);
 
-    QSharedPointer<VLNVReference> retVal(new VLNVReference(vlnv, docRef));
+    QSharedPointer<ConfigurableVLNVReference> retVal(new ConfigurableVLNVReference(vlnv, docRef));
 
     return retVal;
 }
@@ -1174,7 +1174,7 @@ void LibraryHandler::onRemoveVLNV(QList<VLNV> const vlnvs)
                         QSharedPointer<const DesignConfiguration> desConf =
                             getModelReadOnly(ref).staticCast<const DesignConfiguration>();
 
-                        VLNV designVLNV = desConf->getDesignRef();
+                        VLNV designVLNV = *desConf->getDesignRef();
                         if (data_->contains(designVLNV))
                         {
                             removeDialog.createItem(designVLNV);
@@ -1206,7 +1206,7 @@ void LibraryHandler::onRemoveVLNV(QList<VLNV> const vlnvs)
             QSharedPointer<const DesignConfiguration> desConf =
                 getModelReadOnly(vlnvToRemove).staticCast<const DesignConfiguration>();
 
-            VLNV designVLNV = desConf->getDesignRef();
+            VLNV designVLNV = *desConf->getDesignRef();
             if (data_->contains(designVLNV))
             {
                 removeDialog.createItem(designVLNV);
@@ -1767,14 +1767,14 @@ bool LibraryHandler::containsPath(QString const& path, QStringList const& pathsT
 //-----------------------------------------------------------------------------
 // Function: LibraryHandler::getDocumentReference()
 //-----------------------------------------------------------------------------
-QSharedPointer<QWeakPointer<Document> > LibraryHandler::getDocumentReference(const VLNV& vlnv)
+QSharedPointer<QSharedPointer<Document> > LibraryHandler::getDocumentReference(const VLNV& vlnv)
 {
-    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > >::iterator iter = references_.find(vlnv);
-    QSharedPointer<QWeakPointer<Document> > retVal;
+    QMap<VLNV, QSharedPointer<QSharedPointer<Document> > >::iterator iter = references_.find(vlnv);
+    QSharedPointer<QSharedPointer<Document> > retVal;
 
     if (iter == references_.end())
     {
-        retVal = QSharedPointer<QWeakPointer<Document> >(new QWeakPointer<Document>);
+        retVal = QSharedPointer<QSharedPointer<Document> >(new QSharedPointer<Document>);
         references_.insert(vlnv, retVal);
     }
     else
@@ -1792,19 +1792,17 @@ void LibraryHandler::insertObject(VLNV const& vlnv, QSharedPointer<Document> lib
 {
     objects_.insert(vlnv, libComp);
 
-    QSharedPointer<QWeakPointer<Document> > docRef;
-    QWeakPointer<Document>* weakref = new QWeakPointer<Document>(libComp.toWeakRef());
-
-    QMap<VLNV, QSharedPointer<QWeakPointer<Document> > >::iterator iter = references_.find(vlnv);
+    QMap<VLNV, QSharedPointer<QSharedPointer<Document> > >::iterator iter = references_.find(vlnv);
 
     if (iter == references_.end())
     {
-        docRef = QSharedPointer<QWeakPointer<Document> >(weakref);
-        references_.insert(vlnv, docRef);
+        QSharedPointer<QSharedPointer<Document> > pointerRef = QSharedPointer<QSharedPointer<Document> >(new QSharedPointer<Document>(libComp));
+        references_.insert(vlnv, pointerRef);
     }
     else
     {
-        docRef = *iter;
-        docRef.reset(weakref);
+        QSharedPointer<QSharedPointer<Document> > pointerRef = *iter;
+        //QSharedPointer<Document> origDocRef = *pointerRef;
+        pointerRef->swap(libComp);
     }
 }

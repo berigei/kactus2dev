@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------------
 // Function: ConfigurableVLNVReference::ConfigurableVLNVReference()
 //-----------------------------------------------------------------------------
-ConfigurableVLNVReference::ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QWeakPointer<Document> > documentReference):
+ConfigurableVLNVReference::ConfigurableVLNVReference(VLNV const& vlnv, QSharedPointer<QSharedPointer<Document> > documentReference):
 VLNVReference(vlnv, documentReference),
 configurableElementValues_(new QList<QSharedPointer<ConfigurableElementValue> >)
 {

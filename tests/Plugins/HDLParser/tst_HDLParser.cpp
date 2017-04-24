@@ -112,7 +112,7 @@ private:
     QSharedPointer<PortMap> mapPortToInterface(QString const& portName, int left, int right, 
         QString const& logicalName, QString const& interfaceName, QSharedPointer<Component> component);
     
-    QSharedPointer<BusInterface> addInterfaceToComponent(QString const& interfaceName, QSharedPointer<Component> component, QSharedPointer<ConfigurableVLNVReference> absRef);
+    QSharedPointer<BusInterface> addInterfaceToComponent(QString const& interfaceName, QSharedPointer<Component> component, VLNV absRef);
 
     QSharedPointer<View> addSenderComponentToLibrary(VLNV senderVLNV, General::InterfaceMode mode);
 
@@ -146,9 +146,9 @@ private:
     GenerationTuple input_;
 
     //! The abstraction definitions used in the tests.
-    QSharedPointer<ConfigurableVLNVReference> clkAbstractionVLNV_;
+    VLNV clkAbstractionVLNV_;
     QSharedPointer<AbstractionDefinition> clkAbstractionDefinition_;
-    QSharedPointer<ConfigurableVLNVReference> dataAbstractionVLNV_;
+    VLNV dataAbstractionVLNV_;
     QSharedPointer<AbstractionDefinition> dataAbstractionDefinition_;
 
     //! The view of the top component chosen as the active view.
@@ -189,32 +189,34 @@ void tst_HDLParser::init()
 {
     VLNV vlnv(VLNV::COMPONENT, "Test", "TestLibrary", "TestComponent", "1.0");
     topComponent_ = QSharedPointer<Component>(new Component(vlnv));
+    library_.addComponent(topComponent_);
 
     topView_ = QSharedPointer<View>(new View("topView"));
     topComponent_->getViews()->append(topView_);
 
     VLNV designVlnv(VLNV::DESIGN, "Test", "TestLibrary", "TestDesign", "1.0");
-	design_ = QSharedPointer<Design>(new Design(designVlnv));
+    design_ = QSharedPointer<Design>(new Design(designVlnv));
+    library_.addComponent(design_);
+    QSharedPointer<VLNVReference> designVlnvRef = library_.getVLNVReference(designVlnv);
 
 	VLNV designConfVlnv(VLNV::DESIGNCONFIGURATION, "Test", "TestLibrary", "TestDesignConfiguration", "1.0");
 	designConf_ = QSharedPointer<DesignConfiguration>(new DesignConfiguration(designConfVlnv));
-    designConf_->setDesignRef(designVlnv);
+    designConf_->setDesignRef(designVlnvRef);
+    library_.addComponent(designConf_);
 
     input_.component = topComponent_;
     input_.design = design_;
     input_.designConfiguration = designConf_;
 
-    clkAbstractionVLNV_ = QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(
-        VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "clkAbsDef", "1.0"));
+    clkAbstractionVLNV_ = VLNV(VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "clkAbsDef", "1.0");
 
     clkAbstractionDefinition_ =  QSharedPointer<AbstractionDefinition>(new AbstractionDefinition());
-    clkAbstractionDefinition_->setVlnv(*clkAbstractionVLNV_.data());
+    clkAbstractionDefinition_->setVlnv(clkAbstractionVLNV_);
 
-    dataAbstractionVLNV_ = QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(
-        VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "dataAbsDef", "1.0"));
+    dataAbstractionVLNV_ = VLNV(VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "dataAbsDef", "1.0");
 
     dataAbstractionDefinition_ =  QSharedPointer<AbstractionDefinition>(new AbstractionDefinition());
-    dataAbstractionDefinition_->setVlnv(*dataAbstractionVLNV_.data());
+    dataAbstractionDefinition_->setVlnv(dataAbstractionVLNV_);
 
     QSharedPointer<PortAbstraction> logicalPort (new PortAbstraction());
     logicalPort->setName("CLK");
@@ -505,8 +507,7 @@ void tst_HDLParser::testHierarchicalConnectionsWithExpressions()
 // Function: tst_HDLParser::addInterfaceToComponent()
 //-----------------------------------------------------------------------------
 QSharedPointer<BusInterface> tst_HDLParser::addInterfaceToComponent(QString const& interfaceName,
-    QSharedPointer<Component> component,
-    QSharedPointer<ConfigurableVLNVReference> absRef)
+    QSharedPointer<Component> component, VLNV absRef)
 {
     QSharedPointer<BusInterface> busInterface(new BusInterface());
     busInterface->setName(interfaceName);
@@ -516,7 +517,7 @@ QSharedPointer<BusInterface> tst_HDLParser::addInterfaceToComponent(QString cons
     QSharedPointer<QList<QSharedPointer<PortMap> > > newPortMapList (new QList<QSharedPointer<PortMap> > ());
     busInterface->getAbstractionTypes()->append(testAbstraction);
     busInterface->setPortMaps(newPortMapList);
-    testAbstraction->setAbstractionRef(absRef);
+    testAbstraction->setAbstractionRef(library_.getConfigurableVLNVReference(absRef));
 
     return busInterface;
 }
@@ -577,11 +578,11 @@ QSharedPointer<PortMap> tst_HDLParser::mapPortToInterface(QString const& portNam
 
             if (logicalName == "CLK")
             {
-                testAbstraction->setAbstractionRef(clkAbstractionVLNV_);
+                testAbstraction->setAbstractionRef(library_.getConfigurableVLNVReference(clkAbstractionVLNV_));
             }
             else
             {
-                testAbstraction->setAbstractionRef(dataAbstractionVLNV_);
+                testAbstraction->setAbstractionRef(library_.getConfigurableVLNVReference(dataAbstractionVLNV_));
             }
         }
 
@@ -634,7 +635,7 @@ QSharedPointer<View> tst_HDLParser::addTestComponentToLibrary(VLNV vlnv)
 //-----------------------------------------------------------------------------
 QSharedPointer<ComponentInstance> tst_HDLParser::addInstanceToDesign(QString instanceName, VLNV instanceVlnv, QSharedPointer<View> activeView)
 {
-    QSharedPointer<ConfigurableVLNVReference> componentVLNV (new ConfigurableVLNVReference(instanceVlnv));
+    QSharedPointer<ConfigurableVLNVReference> componentVLNV = library_.getConfigurableVLNVReference(instanceVlnv);
     QSharedPointer<ComponentInstance> instance (new ComponentInstance(instanceName, componentVLNV));
 
     design_->getComponentInstances()->append(instance);
@@ -1314,12 +1315,14 @@ void tst_HDLParser::testSlicedInterconnection()
 
 	addInstanceToDesign("receiver", receiver, recvView);
 
-	QSharedPointer<ConfigurableVLNVReference> abstractionVLNV(new ConfigurableVLNVReference(
-		VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "absDef", "1.0"));
+    VLNV abstractionVLNV = VLNV(
+        VLNV::ABSTRACTIONDEFINITION, "Test", "TestLibrary", "absDef", "1.0");
 
 	QSharedPointer<AbstractionDefinition> testAbstractionDefinition(new AbstractionDefinition());
-	testAbstractionDefinition->setVlnv(*abstractionVLNV.data());
-	library_.addComponent(testAbstractionDefinition);
+	testAbstractionDefinition->setVlnv(abstractionVLNV);
+    library_.addComponent(testAbstractionDefinition);
+
+    QSharedPointer<ConfigurableVLNVReference> abstractionVLNVref = library_.getConfigurableVLNVReference(abstractionVLNV);
 
 	QSharedPointer<PortAbstraction> logicalPort (new PortAbstraction());
 	logicalPort->setName("ENABLE");
@@ -1332,8 +1335,8 @@ void tst_HDLParser::testSlicedInterconnection()
 
 	testAbstractionDefinition->getLogicalPorts()->append(logicalPort);
 
-	enableIf->getAbstractionTypes()->first()->setAbstractionRef(abstractionVLNV);
-	receiverComponent->getBusInterface("data_bus")->getAbstractionTypes()->first()->setAbstractionRef(abstractionVLNV);
+	enableIf->getAbstractionTypes()->first()->setAbstractionRef(abstractionVLNVref);
+	receiverComponent->getBusInterface("data_bus")->getAbstractionTypes()->first()->setAbstractionRef(abstractionVLNVref);
 
     addConnectionToDesign("sender", "data_bus", "receiver", "data_bus");
 
@@ -2485,25 +2488,25 @@ void tst_HDLParser::testMultiLevelHierachy()
 {
     VLNV slaveVlnv(VLNV::COMPONENT, "Test", "TestLibrary", "SlaveComponent", "1.0b");
     QSharedPointer<Component> slaveTopComponent = QSharedPointer<Component>(new Component(slaveVlnv));
+    library_.addComponent(slaveTopComponent);
 
     VLNV slaveDesignVlnv(VLNV::DESIGN, "Test", "TestLibrary", "SlaveDesign", "1.0b");
     QSharedPointer<Design> slaveDesign = QSharedPointer<Design>(new Design(slaveDesignVlnv));
+    library_.addComponent(slaveDesign);
+    QSharedPointer<VLNVReference> slaveDesignVlnvRef = library_.getVLNVReference(slaveDesignVlnv);
 
     VLNV slaveDesignConfVlnv(VLNV::DESIGNCONFIGURATION, "Test", "TestLibrary", "SlaveDesignConfiguration", "1.0b");
     QSharedPointer<DesignConfiguration> slaveDesignConf = QSharedPointer<DesignConfiguration>(new DesignConfiguration(slaveDesignConfVlnv));
-    slaveDesignConf->setDesignRef(slaveDesignVlnv);
+    slaveDesignConf->setDesignRef(slaveDesignVlnvRef);
+    library_.addComponent(slaveDesignConf);
 
     QSharedPointer<View> slaveTopView = QSharedPointer<View>(new View("topView"));
     QSharedPointer<DesignConfigurationInstantiation> disg(new DesignConfigurationInstantiation("SlaveDesignConfigurationInstantiation"));
-    disg->setDesignConfigurationReference(QSharedPointer<ConfigurableVLNVReference>(new ConfigurableVLNVReference(slaveDesignConfVlnv)));
+    disg->setDesignConfigurationReference(library_.getConfigurableVLNVReference(slaveDesignConfVlnv));
     slaveTopComponent->getDesignConfigurationInstantiations()->append(disg);
     slaveTopView->setDesignConfigurationInstantiationRef(disg->name());
 
     slaveTopComponent->getViews()->append(slaveTopView);
-
-    library_.addComponent(slaveTopComponent);
-    library_.addComponent(slaveDesign);
-    library_.addComponent(slaveDesignConf);
 
     QSharedPointer<ComponentInstance> slaveInstance = addInstanceToDesign("hierSlave", slaveVlnv, slaveTopView);
 
@@ -2532,8 +2535,7 @@ void tst_HDLParser::testMultiLevelHierachy()
     QSharedPointer<Component> senderComponent(new Component(senderVLNV));
     library_.addComponent(senderComponent);
 
-    QSharedPointer<ConfigurableVLNVReference> componentVLNV (new ConfigurableVLNVReference(senderVLNV));
-    QSharedPointer<ComponentInstance> senderInstance (new ComponentInstance("sender", componentVLNV));
+    QSharedPointer<ComponentInstance> senderInstance (new ComponentInstance("sender", library_.getConfigurableVLNVReference(senderVLNV)));
 
     slaveDesign->getComponentInstances()->append(senderInstance);
 

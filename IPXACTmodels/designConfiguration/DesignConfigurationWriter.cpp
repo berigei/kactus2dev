@@ -87,13 +87,13 @@ void DesignConfigurationWriter::writeDesignConfigurationStart(QXmlStreamWriter& 
 //-----------------------------------------------------------------------------
 // Function: DesignConfigurationWriter::writeDesignReference()
 //-----------------------------------------------------------------------------
-void DesignConfigurationWriter::writeDesignReference(QXmlStreamWriter& writer, VLNV const& designReference) const
+void DesignConfigurationWriter::writeDesignReference(QXmlStreamWriter& writer, QSharedPointer<VLNVReference> designReference) const
 {
-    if (designReference.isValid())
+    if (designReference->isValid())
     {
         writer.writeEmptyElement(QStringLiteral("ipxact:designRef"));
 
-        writeVLNVAttributes(writer, designReference);
+        writeVLNVAttributes(writer, *designReference);
     }
 }
 

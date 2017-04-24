@@ -147,8 +147,7 @@ void MetaInstance::cullInterfaces()
         }
 
         // Find the abstraction definition from the library.
-        QSharedPointer<AbstractionDefinition> absDef =
-            library_->getModel(*absRef).dynamicCast<AbstractionDefinition>();
+        QSharedPointer<AbstractionDefinition> absDef = absRef->getDocumentReference().dynamicCast<AbstractionDefinition>();
 
         if (!absDef)
         {
